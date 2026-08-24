@@ -231,9 +231,7 @@ table.pc-t td:last-child,table.pc-t th:last-child{padding-right:0}
         <button class="pc-tab" role="tab" data-tab="painel" aria-selected="true">
           <span class="ico" aria-hidden="true">▤</span><span>Painel</span>
         </button>
-        <button class="pc-tab" role="tab" data-tab="registrar" aria-selected="false">
-          <span class="ico" aria-hidden="true">＋</span><span>Registrar</span>
-        </button>
+        
         <button class="pc-tab" role="tab" data-tab="posts" aria-selected="false">
           <span class="ico" aria-hidden="true">☰</span><span>Posts</span>
         </button>
@@ -1566,5 +1564,5 @@ function gravarAgora(){
 document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='hidden') gravarAgora(); });
 window.addEventListener('pagehide', gravarAgora);
 
-carregar().then(render);
+carregar().then(()=>{ render(); sincronizarInstagram(); });
 </script>
