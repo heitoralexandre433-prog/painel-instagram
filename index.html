@@ -844,11 +844,7 @@ function viewPainel(){
     {t:'Curtidas',   v:N(curt),  c:'var(--c-amber)', s:`engajamento médio ${P(eng)}%`},
     {t:'Interações', v:N(inter), c:'var(--c-green)', s:'curtidas + comentários + compart. + salvos'}
   ];
-    {t:'Views',             v:N(views), u:'', c:'var(--c-cyan)',    s:`${lista.length} post${lista.length===1?'':'s'} no período`},
-    {t:'Leads',             v:N(leads), u:'', c:'var(--c-green)',   s:`${P(views>0?leads/views*100:0,2)}% das views`},
-    {t:'Curtidas',          v:N(curt),  u:'', c:'var(--c-amber)',   s:`engajamento médio ${P(eng)}%`},
-    {t:'Seguidores ganhos', v:N(seg),   u:'', c:'var(--c-magenta)', s:`${P(alc>0?seg/alc*100:0,2)}% do alcance`}
-  ];
+    
 
   const est = funil(lista);
   const g = gargalo(est);
