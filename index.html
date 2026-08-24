@@ -824,15 +824,26 @@ function viewPainel(){
   const lista = postsFiltrados();
   if(!state.posts.length) return vazio();
 
-  const eng   = media(lista, engaj);
+   const eng   = media(lista, engaj);
   const alc   = soma(lista,'alcance');
   const views = soma(lista,'views');
-  const leads = soma(lista,'lead');
   const curt  = soma(lista,'curtidas');
-  const seg   = soma(lista,'novosSeguidores');
+  const inter = soma(lista,'interacoes');
   const rotulo = ui.periodo==='tudo' ? 'todo o período' : `últimos ${ui.periodo} dias`;
 
+  const dConta = state.periodoConta || 30;
+  const contaKpis = [
+    {t:'Seguidores', v:N(state.seguidores||0), c:'var(--c-magenta)', s:'total atual da conta'},
+    {t:'Visitas ao perfil', v: state.visitasPerfil==null ? '—' : N(state.visitasPerfil), c:'var(--c-blue)', s: state.visitasPerfil==null ? 'indisponível para esta conta' : `últimos ${dConta} dias`},
+    {t:'Publicações', v:N(state.totalPosts||state.posts.length), c:'var(--c-green)', s:'no perfil'}
+  ];
+
   const kpis = [
+    {t:'Views',      v:N(views), c:'var(--c-cyan)',  s:`${lista.length} post${lista.length===1?'':'s'} no período`},
+    {t:'Alcance',    v:N(alc),   c:'var(--c-blue)',  s:`${P(alc>0?views/alc*100:0,0)}% de views sobre alcance`},
+    {t:'Curtidas',   v:N(curt),  c:'var(--c-amber)', s:`engajamento médio ${P(eng)}%`},
+    {t:'Interações', v:N(inter), c:'var(--c-green)', s:'curtidas + comentários + compart. + salvos'}
+  ];
     {t:'Views',             v:N(views), u:'', c:'var(--c-cyan)',    s:`${lista.length} post${lista.length===1?'':'s'} no período`},
     {t:'Leads',             v:N(leads), u:'', c:'var(--c-green)',   s:`${P(views>0?leads/views*100:0,2)}% das views`},
     {t:'Curtidas',          v:N(curt),  u:'', c:'var(--c-amber)',   s:`engajamento médio ${P(eng)}%`},
@@ -847,11 +858,22 @@ function viewPainel(){
     ${[7,30,90,'tudo'].map(p=>`<button class="pc-chip" data-periodo="${p}" aria-pressed="${String(ui.periodo)===String(p)}">${p==='tudo'?'Tudo':p+' dias'}</button>`).join('')}
   </div>
 
+    <div class="pc-sec" style="margin-top:4px"><h2>Conta</h2><span>números do perfil</span></div>
+  <div class="pc-grid pc-g4">
+    ${contaKpis.map(k=>`
+      <div class="pc-kpi" style="--kc:${k.c}">
+        <h3>${k.t}</h3>
+        <div class="v">${k.v}</div>
+        <div class="s">${k.s}</div>
+      </div>`).join('')}
+  </div>
+
+  <div class="pc-sec" style="margin-top:16px"><h2>Conteúdo</h2><span>${rotulo}</span></div>
   <div class="pc-grid pc-g4">
     ${kpis.map(k=>`
       <div class="pc-kpi" style="--kc:${k.c}">
         <h3>${k.t}</h3>
-        <div class="v">${k.v}${k.u?`<small>${k.u}</small>`:''}</div>
+        <div class="v">${k.v}</div>
         <div class="s">${k.s}</div>
       </div>`).join('')}
   </div>
@@ -1323,7 +1345,7 @@ async function sincronizarInstagram(){
     for(const it of dados.posts){
       const base = {
         data: it.data, titulo: it.titulo||'(sem legenda)', formato: it.formato||'Reels', persona:'Geral',
-        views:n(it.views), lead:n(it.lead), alcance:n(it.alcance),
+        views:n(it.views),views:n(it.views), alcance:n(it.alcance), interacoes:n(it.interacoes),
         curtidas:n(it.curtidas), comentarios:n(it.comentarios),
         compartilhamentos:n(it.compartilhamentos), salvamentos:n(it.salvamentos),
         visitasPerfil:n(it.visitasPerfil), novosSeguidores:n(it.novosSeguidores),
@@ -1334,6 +1356,9 @@ async function sincronizarInstagram(){
       else { state.posts.push({id:uid(), igId: it.igId||null, ...base}); novos++; }
     }
     if(n(dados.seguidores)>0) state.seguidores = n(dados.seguidores);
+         state.visitasPerfil = (dados.visitasPerfil === null || dados.visitasPerfil === undefined) ? null : n(dados.visitasPerfil);
+    state.periodoConta  = n(dados.periodoDias) || 30;
+    state.totalPosts    = n(dados.totalPosts) || 0;
     await salvar();
     render();
     const m2 = document.getElementById('msgSync');
