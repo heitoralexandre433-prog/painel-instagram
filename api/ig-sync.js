@@ -2,6 +2,17 @@ const V = process.env.IG_API_VERSION || 'v21.0';
 const BASE = `https://graph.instagram.com/${V}`;
 const TK = () => process.env.IG_TOKEN || process.env.IG_ACCESS_TOKEN || '';
 
+const KV = process.env.KV_REST_API_URL;
+const KVT = process.env.KV_REST_API_TOKEN;
+async function kvGet(k) {
+  if (!KV || !KVT) return null;
+  try {
+    const r = await fetch(`${KV}/get/${encodeURIComponent(k)}`, { headers: { Authorization: `Bearer ${KVT}` } });
+    const j = await r.json();
+    return j.result ?? null;
+  } catch (e) { return null; }
+}
+
 function fmt(p, t) {
   p = (p || '').toUpperCase(); t = (t || '').toUpperCase();
   if (p === 'REELS') return 'Reels';
@@ -34,10 +45,12 @@ async function somaConta(id, tk, metric, dias) {
     const s = (r.data && r.data[0] && r.data[0].values) || [];
     return s.length ? s.reduce((a, v) => a + (typeof v.value === 'number' ? v.value : 0), 0) : null;
   } catch (e) { return null; }
-}module.exports = async (req, res) => {
+} 
+module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   res.setHeader('Cache-Control', 'no-store');
-  const id = process.env.IG_USER_ID, tk = TK();
+  const id = process.env.IG_USER_ID;
+  const tk = (await kvGet('ig:token')) || TK();
   if (!id || !tk) { res.statusCode = 500; return res.end(JSON.stringify({ error: 'faltam variaveis' })); }
 
   const dias = Math.min(parseInt((req.query && req.query.dias) || '30', 10) || 30, 90);
@@ -49,6 +62,17 @@ async function somaConta(id, tk, metric, dias) {
       somaConta(id, tk, 'profile_views', dias),
       somaConta(id, tk, 'follower_count', dias),
     ]);
+
+    let crescimento = null;
+    try {
+      const hist = JSON.parse((await kvGet('ig:hist')) || '[]');
+      if (hist.length >= 2) {
+        const lim = new Date(Date.now() - dias * 86400000).toISOString().slice(0, 10);
+        const ant = hist.filter(x => x.d <= lim).pop() || hist[0];
+        const at = hist[hist.length - 1];
+        if (ant && at && ant.d !== at.d) crescimento = at.v - ant.v;
+      }
+    } catch (e) {}
 
     const md = await g(`/${id}/media`, { fields: 'id,caption,media_type,media_product_type,timestamp,like_count,comments_count,permalink,thumbnail_url,media_url', limit: '25', access_token: tk });
 
@@ -79,7 +103,7 @@ async function somaConta(id, tk, metric, dias) {
     res.statusCode = 200;
     res.end(JSON.stringify({
       conta: c.username, seguidores: c.followers_count || 0, totalPosts: c.media_count || 0,
-      periodoDias: dias, visitasPerfil, novosSeguidores,
+      periodoDias: dias, visitasPerfil, novosSeguidores: (novosSeguidores != null ? novosSeguidores : crescimento),
       atualizadoEm: new Date().toISOString(), total: posts.length, posts,
     }));
   } catch (e) {
