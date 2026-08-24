@@ -272,7 +272,6 @@ const PERSONAS = ['Geral','Tradicional','Premium','Gen Z'];
 const METRICAS = {
   posts:             {nome:'Posts publicados',          tipo:'contagem'},
   views:             {nome:'Views',                     tipo:'soma', campo:'views'},
-  lead:              {nome:'Leads',                      tipo:'soma', campo:'lead'},
   curtidas:          {nome:'Curtidas',                  tipo:'soma', campo:'curtidas'},
   compartilhamentos: {nome:'Compartilhamentos',         tipo:'soma', campo:'compartilhamentos'},
   novosSeguidores:   {nome:'Novos seguidores',          tipo:'soma', campo:'novosSeguidores'},
@@ -1109,8 +1108,8 @@ function viewPosts(){
     <div class="pc-tablewrap">
       <table class="pc-t">
         <thead><tr>
-          <th>Data</th><th>Post</th><th>Formato</th><th>Views</th><th>Leads</th>
-          <th>Curt.</th><th>Comp.</th><th>Segs.</th><th>Alcance</th><th>Eng.</th><th></th>
+                  <th>Data</th><th>Post</th><th>Formato</th><th>Views</th><th>Salvos</th>
+          <th>Curt.</th><th>Comp.</th><th>Inter.</th><th>Alcance</th><th>Eng.</th><th></th>
         </tr></thead>
         <tbody>
         ${lista.map(p=>{
@@ -1120,10 +1119,10 @@ function viewPosts(){
             <td><div class="pc-name" title="${esc(p.titulo)}">${esc(p.titulo)}</div></td>
             <td><span class="pc-fmt"><i style="background:${FORMATOS[p.formato]||'#515BD4'}"></i>${esc(p.formato)}</span></td>
             <td>${N(p.views)}</td>
-            <td>${N(p.lead)}</td>
+            <td>${N(p.salvamentos)}</td>
             <td>${N(p.curtidas)}</td>
             <td>${N(p.compartilhamentos)}</td>
-            <td>${N(p.novosSeguidores)}</td>
+            <td>${N(p.interacoes)}</td>
             <td>${N(p.alcance)}</td>
             <td style="color:${corStatus(e,state.bench.engajamento)}">${e===null?'—':P(e)+'%'}</td>
             <td><button class="pc-lnk" data-edit="${p.id}">Editar</button><button class="pc-lnk del" data-del="${p.id}">Excluir</button></td>
