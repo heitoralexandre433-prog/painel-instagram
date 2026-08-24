@@ -34,7 +34,9 @@ async function somaConta(id, tk, metric, dias) {
     const s = (r.data && r.data[0] && r.data[0].values) || [];
     return s.length ? s.reduce((a, v) => a + (typeof v.value === 'number' ? v.value : 0), 0) : null;
   } catch (e) { return null; }
-}
+}module.exports = async (req, res) => {
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  res.setHeader('Cache-Control', 'no-store');
   const id = process.env.IG_USER_ID, tk = TK();
   if (!id || !tk) { res.statusCode = 500; return res.end(JSON.stringify({ error: 'faltam variaveis' })); }
 
