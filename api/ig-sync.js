@@ -23,13 +23,18 @@ async function somaConta(id, tk, metric, dias) {
   const until = Math.floor(Date.now() / 1000);
   const since = until - dias * 86400;
   try {
+    const r = await g(`/${id}/insights`, { metric, period: 'day', metric_type: 'total_value', since, until, access_token: tk });
+    const d = r.data && r.data[0];
+    if (d && d.total_value && typeof d.total_value.value === 'number') return d.total_value.value;
+    const s = (d && d.values) || [];
+    if (s.length) return s.reduce((a, v) => a + (typeof v.value === 'number' ? v.value : 0), 0);
+  } catch (e) {}
+  try {
     const r = await g(`/${id}/insights`, { metric, period: 'day', since, until, access_token: tk });
-    const serie = (r.data && r.data[0] && r.data[0].values) || [];
-    return serie.reduce((s, v) => s + (typeof v.value === 'number' ? v.value : 0), 0);
+    const s = (r.data && r.data[0] && r.data[0].values) || [];
+    return s.length ? s.reduce((a, v) => a + (typeof v.value === 'number' ? v.value : 0), 0) : null;
   } catch (e) { return null; }
-}module.exports = async (req, res) => {
-  res.setHeader('Content-Type', 'application/json; charset=utf-8');
-  res.setHeader('Cache-Control', 'no-store');
+}
   const id = process.env.IG_USER_ID, tk = TK();
   if (!id || !tk) { res.statusCode = 500; return res.end(JSON.stringify({ error: 'faltam variaveis' })); }
 
