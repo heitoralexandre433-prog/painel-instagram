@@ -271,7 +271,7 @@ const PERSONAS = ['Geral','Tradicional','Premium','Gen Z'];
    ORDEM PRINCIPAL: views · lead · curtidas · compartilhamento · seguidor */
 const METRICAS = {
   posts:             {nome:'Posts publicados',          tipo:'contagem'},
-  views:             {nome:'Views',                     tipo:'soma', campo:'views'},
+  views:             {nome:'Visualizações',             tipo:'soma', campo:'views'},
   curtidas:          {nome:'Curtidas',                  tipo:'soma', campo:'curtidas'},
   compartilhamentos: {nome:'Compartilhamentos',         tipo:'soma', campo:'compartilhamentos'},
   novosSeguidores:   {nome:'Novos seguidores',          tipo:'soma', campo:'novosSeguidores'},
@@ -838,8 +838,8 @@ function viewPainel(){
   ];
 
   const kpis = [
-    {t:'Views',      v:N(views), c:'var(--c-cyan)',  s:`${lista.length} post${lista.length===1?'':'s'} no período`},
-    {t:'Alcance',    v:N(alc),   c:'var(--c-blue)',  s:`${P(alc>0?views/alc*100:0,0)}% de views sobre alcance`},
+    {t:'Visualizações', v:N(views), c:'var(--c-cyan)',  s:`${lista.length} post${lista.length===1?'':'s'} no período`},
+    {t:'Alcance',    v:N(alc),   c:'var(--c-blue)',  s:`${P(alc>0?views/alc*100:0,0)}% de visualizações sobre alcance`},
     {t:'Curtidas',   v:N(curt),  c:'var(--c-amber)', s:`engajamento médio ${P(eng)}%`},
     {t:'Interações', v:N(inter), c:'var(--c-green)', s:'curtidas + comentários + compart. + salvos'}
   ];
@@ -875,7 +875,7 @@ function viewPainel(){
 
   <div class="pc-panel" style="margin-top:14px">
     <div class="pc-sec">
-      <h2>Scope — engajamento por post</h2>
+      <h2>Engajamento por post</h2>
       <span>${rotulo} · ordem cronológica</span>
     </div>
     ${scope(lista)}
@@ -1070,7 +1070,7 @@ function viewRegistrar(){
           ${PERSONAS.map(f=>`<option ${val('persona','Geral')===f?'selected':''}>${f}</option>`).join('')}
         </select>
       </div>
-      ${campo('views','Views','number','visualizações do post (Reels/vídeo)','min="0"')}
+      ${campo('views','Visualizações','number','visualizações do post (Reels/vídeo)','min="0"')}
       ${campo('lead','Leads','number','cliques no link / CTA ou leads gerados','min="0"')}
       ${campo('curtidas','Curtidas')}
       ${campo('compartilhamentos','Compartilhamentos','number','o sinal mais forte de identificação')}
@@ -1108,7 +1108,7 @@ function viewPosts(){
     <div class="pc-tablewrap">
       <table class="pc-t">
         <thead><tr>
-                  <th>Data</th><th>Post</th><th>Formato</th><th>Views</th><th>Salvos</th>
+                  <th>Data</th><th>Post</th><th>Formato</th><th>Visualiz.</th><th>Salvos</th>
           <th>Curt.</th><th>Comp.</th><th>Inter.</th><th>Alcance</th><th>Eng.</th><th></th>
         </tr></thead>
         <tbody>
@@ -1237,7 +1237,7 @@ function viewMetas(){
 
     <div class="pc-goal">
       <div class="top">
-        <span class="nm">Último export manual</span>
+        <span class="nm">Última exportação manual</span>
         <span class="pct" style="color:${!state.exportadoEm?'var(--bad)':diasDesde(state.exportadoEm)>30?'var(--warn)':'var(--ok)'}">
           ${state.exportadoEm ? dataBR(state.exportadoEm.slice(0,10))+' · há '+diasDesde(state.exportadoEm)+' dia(s)' : 'nunca exportado'}
         </span>
