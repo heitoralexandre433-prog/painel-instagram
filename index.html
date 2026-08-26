@@ -1,7 +1,7 @@
 <meta charset="utf-8">
+<meta name="color-scheme" content="light dark">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 /* ============================================================
    PAINEL DE CONTEUDO - linguagem visual Instagram
@@ -34,13 +34,19 @@
   --c-green:#00BA7C;
   --c-red:#ED4956;
 
+  --bad-soft:#FFF0F0;
   --ok:#00BA7C;
   --warn:#F58529;
   --bad:#ED4956;
 
-  --display:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  /* a mesma pilha que o Instagram usa na web: a fonte do proprio sistema.
+     'Instagram Sans' e proprietaria e nao pode ser embutida — quando o
+     aparelho a tem instalada, ela e usada; senao cai na fonte do sistema,
+     que e exatamente o que o instagram.com mostra. */
+  --display:'Instagram Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
   --body:var(--display);
   --sans:var(--display);
+  /* mesma familia nos numeros — so com os digitos de largura fixa, para as colunas alinharem */
   --mono:var(--display);
 
   --r:12px;
@@ -48,9 +54,86 @@
   --sh:0 1px 2px rgba(0,0,0,.04);
 }
 
+
+/* ============================================================
+   TEMA ESCURO — paleta do Instagram no modo escuro
+   preto puro no fundo, cartões #121212, bordas #262626
+   ============================================================ */
+@media (prefers-color-scheme: dark){
+  :root:not([data-tema="claro"]){
+    --bg:#000000;
+    --panel:#121212;
+    --panel2:#1C1C1E;
+    --line:#262626;
+    --line2:#363636;
+    --ink:#F5F5F5;
+    --mute:#A8A8A8;
+    --mute2:#737373;
+
+    --ig-blue:#0095F6;
+    --ig-orange:#F58529;
+    --ig-pink:#FF3D77;
+    --ig-purple:#A855F7;
+    --ig-indigo:#6B76E8;
+    --ig-red:#FF5C68;
+    --ig-green:#25D69A;
+
+    --c-cyan:#0095F6;
+    --c-amber:#F58529;
+    --c-magenta:#FF3D77;
+    --c-blue:#6B76E8;
+    --c-green:#25D69A;
+    --c-red:#FF5C68;
+
+    --ok:#25D69A;
+    --warn:#F58529;
+    --bad:#FF5C68;
+    --bad-soft:rgba(255,92,104,.14);
+
+    --sh:none;
+  }
+}
+:root[data-tema="escuro"]{
+  --bg:#000000;
+  --panel:#121212;
+  --panel2:#1C1C1E;
+  --line:#262626;
+  --line2:#363636;
+  --ink:#F5F5F5;
+  --mute:#A8A8A8;
+  --mute2:#737373;
+
+  --ig-blue:#0095F6;
+  --ig-orange:#F58529;
+  --ig-pink:#FF3D77;
+  --ig-purple:#A855F7;
+  --ig-indigo:#6B76E8;
+  --ig-red:#FF5C68;
+  --ig-green:#25D69A;
+
+  --c-cyan:#0095F6;
+  --c-amber:#F58529;
+  --c-magenta:#FF3D77;
+  --c-blue:#6B76E8;
+  --c-green:#25D69A;
+  --c-red:#FF5C68;
+
+  --ok:#25D69A;
+  --warn:#F58529;
+  --bad:#FF5C68;
+  --bad-soft:rgba(255,92,104,.14);
+
+  --sh:none;
+}
+
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-weight:400;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums;font-feature-settings:'tnum' 1}
-button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit;font-variant-numeric:tabular-nums}
+
+/* numeros: sem as setinhas de incremento, em todos os navegadores */
+input[type=number]{-moz-appearance:textfield;appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--ig-blue);outline-offset:2px}
 
@@ -93,8 +176,8 @@ button{cursor:pointer}
   .pc-side-inner{flex-direction:column;gap:16px;padding:20px 16px}
   .pc-tabs{flex-direction:row;flex-wrap:wrap;gap:6px}
   .pc-tab{width:auto;padding:9px 14px}
-  .pc-tab[aria-selected="true"]{box-shadow:none;background:var(--ink);color:#fff}
-  .pc-tab[aria-selected="true"] .ico{color:#fff}
+  .pc-tab[aria-selected="true"]{box-shadow:none;background:var(--ink);color:var(--bg)}
+  .pc-tab[aria-selected="true"] .ico{color:var(--bg)}
   .pc-stamp{margin-top:0;border-top:0;padding:0 4px}
   .pc-main{padding:20px 16px 64px}
 }
@@ -115,7 +198,7 @@ button{cursor:pointer}
 .pc-chip{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:7px 16px;
   font-size:13px;font-weight:600;color:var(--mute);letter-spacing:0;transition:all .15s}
 .pc-chip:hover{border-color:var(--line2);color:var(--ink)}
-.pc-chip[aria-pressed="true"]{border-color:var(--ink);color:#fff;background:var(--ink)}
+.pc-chip[aria-pressed="true"]{border-color:var(--ink);color:var(--bg);background:var(--ink)}
 
 .pc-kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px;position:relative;overflow:hidden;box-shadow:var(--sh)}
 .pc-kpi::before{content:"";position:absolute;left:0;right:0;top:0;bottom:auto;width:auto;height:3px;background:var(--kc,var(--line2))}
@@ -184,7 +267,7 @@ button{cursor:pointer}
 .pc-btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:600}
 .pc-btn.ghost:hover{background:var(--panel2);filter:none;color:var(--ink);border-color:var(--line2)}
 .pc-btn.danger{color:var(--bad)}
-.pc-btn.danger:hover{background:#FFF0F0;border-color:var(--bad);color:var(--bad)}
+.pc-btn.danger:hover{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
 .pc-msg{font-size:13px;color:var(--ok);font-weight:600;letter-spacing:0}
 .pc-msg.err{color:var(--bad)}
 
@@ -214,6 +297,326 @@ table.pc-t td:last-child,table.pc-t th:last-child{padding-right:0}
 .pc-note code{font-size:12.5px;color:var(--ig-purple);background:var(--panel2);padding:2px 6px;border-radius:4px}
 
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* ============================================================
+   PAINEL v2 — passos, cadeia, validação, aba Posts
+   usa apenas os tokens já definidos acima
+   ============================================================ */
+.pc-passo{display:grid;gap:12px;margin-bottom:26px}
+.pc-passo>header{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.pc-passo>header h2{margin:0;font-size:15px;font-weight:700;letter-spacing:-.01em}
+.pc-passo>header .ap{font-size:12.5px;color:var(--mute)}
+.pc-rot{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--mute)}
+
+/* três indicadores */
+.pc-tres{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.pc-tres .ind .v{font-family:var(--mono);font-size:32px;font-weight:700;line-height:1;
+  letter-spacing:-.03em;margin-top:7px}
+.pc-tres .ind .ref{font-size:11.5px;color:var(--mute);margin-top:8px}
+.pc-tres .ind .ref b{font-weight:600}
+.pc-tres .ind .ref.bom b{color:var(--ok)}
+.pc-tres .ind .ref.ruim b{color:var(--bad)}
+.pc-tres .ind .ref.sem{color:var(--mute2)}
+.pc-tres .ind .cx{font-size:11px;color:var(--mute2);margin-top:6px;line-height:1.45}
+@media(max-width:700px){.pc-tres{grid-template-columns:1fr;gap:20px}}
+
+/* cadeia */
+.pc-etapa{padding:15px 0;border-bottom:1px solid var(--line)}
+.pc-etapa:first-child{padding-top:0}
+.pc-etapa:last-child{border-bottom:0;padding-bottom:0}
+.pc-etapa .top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px}
+.pc-etapa .nome{font-size:13.5px;font-weight:600}
+.pc-etapa .qtd{font-family:var(--mono);font-size:15px;font-weight:700}
+.pc-etapa .qtd u{text-decoration:none;font-size:11px;font-weight:500;color:var(--mute2);margin-left:9px}
+.pc-etapa .nome em{font-style:normal;font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--bad);background:var(--bad-soft);
+  padding:2px 7px;border-radius:20px;margin-left:9px;vertical-align:1px}
+.pc-tr{position:relative;height:10px;background:var(--panel2);border-radius:3px}
+.pc-tr i{display:block;height:100%;border-radius:0 3px 3px 0}
+.pc-tr s{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);opacity:.55;text-decoration:none}
+.pc-etapa .queda{font-size:11.5px;color:var(--mute);margin-top:7px}
+.pc-etapa .queda b{font-weight:600}
+.pc-etapa .queda b.ok{color:var(--ok)}
+.pc-etapa .queda b.ruim{color:var(--bad)}
+.pc-etapa.ramo{padding-left:14px;border-left:2px solid var(--line)}
+.pc-etapa.ramo .ramo-nota{font-size:11.5px;color:var(--mute2);margin-bottom:12px;font-style:italic}
+.pc-etapa.ramo .sub+.sub{margin-top:16px}
+
+/* validação por post */
+/* ===== ícones e animações de foco ===== */
+.pc-rot .ic{width:15px;height:15px;flex:0 0 auto;margin-right:7px;vertical-align:-3px;
+  opacity:.75;transition:opacity .22s ease,transform .22s ease}
+.pc-tres .ind:nth-child(1) .pc-rot .ic{color:var(--ig-red)}
+.pc-tres .ind:nth-child(2) .pc-rot .ic{color:var(--ok)}
+.pc-tres .ind:nth-child(3) .pc-rot .ic{color:var(--ig-purple)}
+
+/* três indicadores do topo: expandem ao passar o mouse */
+.pc-tres .ind{padding:10px 12px;margin:-10px -12px;border-radius:var(--r);
+  transition:background .22s ease,transform .22s cubic-bezier(.2,.7,.3,1)}
+.pc-tres .ind .v{display:block;transform-origin:left center;
+  transition:transform .24s cubic-bezier(.2,.7,.3,1),color .22s ease}
+.pc-tres .ind .cx{transition:color .22s ease}
+.pc-tres .ind:hover{background:var(--panel2)}
+.pc-tres .ind:hover .v{transform:scale(1.09)}
+.pc-tres .ind:hover .pc-rot .ic{opacity:1;transform:scale(1.12)}
+.pc-tres .ind:hover .cx{color:var(--mute)}
+
+/* etapas da cadeia: realce e leve expansão da etapa sob o mouse */
+.pc-etapa,.pc-etapa.ramo .sub{padding-left:12px;padding-right:12px;margin-left:-12px;margin-right:-12px;
+  border-radius:var(--r-sm);transition:background .2s ease,transform .2s cubic-bezier(.2,.7,.3,1)}
+.pc-etapa.ramo{padding-left:14px;margin-left:0}
+.pc-etapa:not(.ramo):hover,.pc-etapa.ramo .sub:hover{background:var(--panel2);transform:translateX(3px)}
+.pc-etapa .pc-tr,.pc-etapa .top .qtd{transition:transform .2s cubic-bezier(.2,.7,.3,1)}
+.pc-etapa:not(.ramo):hover .qtd,.pc-etapa.ramo .sub:hover .qtd{transform:scale(1.07)}
+.pc-etapa .top .qtd{display:inline-block;transform-origin:right center}
+.pc-etapa.ramo .sub{padding-top:10px;padding-bottom:10px}
+.pc-etapa.ramo .sub+.sub{margin-top:6px}
+
+/* validação: a régua não anima — é campo de digitação, não indicador.
+   O gráfico de cada publicação cresce para cima e mostra os números. */
+.pc-postv{border-radius:var(--r-sm);padding-left:10px;padding-right:10px;margin-left:-10px;margin-right:-10px;
+  transform-origin:left center;
+  transition:background .2s ease,transform .22s cubic-bezier(.2,.7,.3,1)}
+.pc-postv:hover{background:var(--panel2);transform:scale(1.012)}
+.pc-postv .t,.pc-postv .pc-val b{transition:letter-spacing .22s ease}
+.pc-postv:hover .pc-val b{letter-spacing:.01em}
+
+.pc-seg{position:relative;height:22px;align-items:end}
+.pc-seg .sg{position:relative;height:22px}
+.pc-seg .s{position:absolute;left:0;right:0;bottom:0;height:22px;
+  transition:height .24s cubic-bezier(.2,.7,.3,1),box-shadow .2s ease}
+.pc-seg .qv{position:absolute;left:-2px;right:-2px;bottom:24px;text-align:center;
+  font-size:10.5px;font-weight:700;line-height:1;letter-spacing:-.01em;
+  opacity:0;transform:translateY(5px);pointer-events:none;
+  transition:opacity .2s ease,transform .24s cubic-bezier(.2,.7,.3,1),bottom .24s cubic-bezier(.2,.7,.3,1)}
+/* fundo flutuante para o gráfico expandido não se misturar com a linha de cima */
+.pc-seg::before{content:"";position:absolute;left:-10px;right:-10px;bottom:-7px;top:-6px;
+  background:var(--panel);border:1px solid transparent;border-radius:10px;
+  opacity:0;pointer-events:none;transition:opacity .2s ease,top .24s cubic-bezier(.2,.7,.3,1)}
+/* um gráfico aberto por vez — a classe e' controlada no JS, nao pelo :hover,
+   para que dois nunca fiquem animando ao mesmo tempo quando o mouse corre a lista */
+.pc-seg.aberto{z-index:6}
+.pc-seg.aberto::before{opacity:1;top:-74px;border-color:var(--line);box-shadow:var(--sh)}
+/* so a barra sob o mouse cresce — as vizinhas apenas clareiam o fundo */
+.pc-seg .sg.aberto .s{height:52px;box-shadow:0 0 0 1px currentColor}
+.pc-seg .sg.aberto .qv{opacity:1;transform:none;bottom:56px}
+.pc-seg.aberto .sg:not(.aberto) .s{background:var(--line)}
+
+@media(prefers-reduced-motion:reduce){
+  .pc-tres .ind,.pc-tres .ind .v,.pc-etapa,.pc-etapa.ramo .sub,.pc-postv,.pc-rot .ic{transition:none}
+  .pc-tres .ind:hover .v,.pc-etapa:not(.ramo):hover,.pc-etapa.ramo .sub:hover,
+  .pc-seg .s,.pc-seg .qv,.pc-seg::before,.pc-postv,.pc-lin .mcel,.pc-prio .pr{transition:none}
+  .pc-acao h3,.pc-acao p,.pc-prio,.pc-prio .tr2 i{animation:none}
+  .pc-postv:hover,.pc-lin .mcel:hover,.pc-prio .pr:hover{transform:none}
+  #view[data-tab="metas"] .pc-field,#view[data-tab="metas"] .pc-metasv .cp,
+  #view[data-tab="metas"] .pc-goal{transition:none}
+  #view[data-tab="metas"] .pc-field:hover,#view[data-tab="metas"] .pc-metasv .cp:hover,
+  #view[data-tab="metas"] .pc-goal:hover{transform:none}
+}
+
+/* ícones das métricas na aba Post */
+.pc-lin .mcel .n1{display:flex;align-items:center;gap:6px}
+.pc-lin .mcel .n1 .ic{width:13px;height:13px;flex:0 0 auto;opacity:.9;
+  transition:transform .22s cubic-bezier(.2,.7,.3,1)}
+.pc-lin .mcel{transition:border-color .2s ease,background .2s ease,transform .22s cubic-bezier(.2,.7,.3,1)}
+.pc-lin .mcel:hover{border-color:var(--line2);background:var(--panel2);transform:translateY(-2px)}
+.pc-lin .mcel:hover .n1 .ic{transform:scale(1.18)}
+
+/* diagnóstico: as barras crescem ao aparecer e a linha sob o mouse ganha destaque */
+@keyframes pc-cresce{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes pc-surge{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.pc-acao h3,.pc-acao p,.pc-prio{animation:pc-surge .42s cubic-bezier(.2,.7,.3,1) both}
+.pc-acao h3{animation-delay:.02s}
+.pc-acao p{animation-delay:.08s}
+.pc-prio{animation-delay:.14s}
+.pc-prio .tr2 i{transform-origin:left center;animation:pc-cresce .7s cubic-bezier(.2,.7,.3,1) both}
+.pc-prio .pr:nth-child(2) .tr2 i{animation-delay:.20s}
+.pc-prio .pr:nth-child(3) .tr2 i{animation-delay:.30s}
+.pc-prio .pr:nth-child(4) .tr2 i{animation-delay:.40s}
+.pc-prio .pr:nth-child(5) .tr2 i{animation-delay:.50s}
+.pc-prio .pr{border-radius:7px;padding-left:8px;padding-right:8px;margin-left:-8px;margin-right:-8px;
+  transition:background .2s ease,transform .2s cubic-bezier(.2,.7,.3,1)}
+.pc-prio .pr:hover{background:var(--panel);transform:translateX(3px)}
+.pc-prio .pr .pp{display:inline-block;transform-origin:right center;transition:transform .2s cubic-bezier(.2,.7,.3,1)}
+.pc-prio .pr:hover .pp{transform:scale(1.12)}
+.pc-prio .pr .nm i{transition:transform .2s cubic-bezier(.2,.7,.3,1)}
+.pc-prio .pr:hover .nm i{transform:scale(1.3)}
+
+/* aba Metas: cada tópico responde ao mouse, como no painel.
+   O campo em si não é escalado — só a moldura — para não atrapalhar o clique. */
+#view[data-tab="metas"] .pc-panel{transition:border-color .22s ease,box-shadow .22s ease}
+#view[data-tab="metas"] .pc-panel:hover{border-color:var(--line2)}
+
+#view[data-tab="metas"] .pc-field,
+#view[data-tab="metas"] .pc-metasv .cp,
+#view[data-tab="metas"] .pc-goal{
+  border-radius:10px;padding:9px 11px;
+  transition:background .2s ease,transform .22s cubic-bezier(.2,.7,.3,1),box-shadow .22s ease}
+#view[data-tab="metas"] .pc-field:hover,
+#view[data-tab="metas"] .pc-metasv .cp:hover,
+#view[data-tab="metas"] .pc-goal:hover{
+  background:var(--panel);transform:translateY(-2px);box-shadow:var(--sh)}
+
+#view[data-tab="metas"] .pc-metasv .cp:hover{background:var(--panel)}
+#view[data-tab="metas"] .pc-metasv .cp i{transition:transform .22s cubic-bezier(.2,.7,.3,1)}
+#view[data-tab="metas"] .pc-metasv .cp:hover i{transform:scale(1.3)}
+#view[data-tab="metas"] .pc-field label,
+#view[data-tab="metas"] .pc-metasv .cp label{transition:color .2s ease}
+#view[data-tab="metas"] .pc-field:hover label,
+#view[data-tab="metas"] .pc-metasv .cp:hover label{color:var(--ink)}
+#view[data-tab="metas"] .pc-goal .pc-fill{transition:filter .22s ease}
+#view[data-tab="metas"] .pc-goal:hover .pc-fill{filter:brightness(1.12)}
+#view[data-tab="metas"] .pc-goal .pct{display:inline-block;transform-origin:right center;
+  transition:transform .22s cubic-bezier(.2,.7,.3,1)}
+#view[data-tab="metas"] .pc-goal:hover .pct{transform:scale(1.06)}
+
+/* o quadro cinza que agrupa os campos acompanha, sem mexer nos campos */
+#view[data-tab="metas"] .pc-metasv{transition:background .22s ease}
+
+/* histórico semanal */
+.pc-hist{display:flex;flex-direction:column}
+.pc-hist .hl{display:grid;grid-template-columns:1fr auto auto;gap:16px;align-items:center;
+  padding:12px 10px;border-bottom:1px solid var(--line);border-left:3px solid transparent;border-radius:2px}
+.pc-hist .hl:last-child{border-bottom:0}
+.pc-hist .hl.sel-a{border-left-color:var(--ig-blue);background:var(--panel2)}
+.pc-hist .hl.sel-b{border-left-color:var(--c-amber);background:var(--panel2)}
+.pc-hist .per b{font-size:13px;font-weight:600;display:block}
+.pc-hist .per span{font-family:var(--mono);font-size:10.5px;color:var(--mute2)}
+.pc-hist .nums{display:flex;gap:14px;font-family:var(--mono);font-size:12px;color:var(--mute)}
+.pc-hist .nums span{display:inline-flex;align-items:center;gap:5px}
+.pc-hist .nums i{width:8px;height:8px;border-radius:2px}
+.pc-hist .sel{display:flex;gap:2px}
+.pc-hist .sel .pc-lnk{padding:2px 8px;border:1px solid var(--line2);border-radius:6px;font-size:11px;color:var(--mute)}
+.pc-hist .sel .pc-lnk.on{border-color:var(--ig-blue);color:var(--ig-blue);background:var(--panel2)}
+.pc-cmp{display:flex;flex-direction:column;font-size:13px}
+.pc-cmp .cab,.pc-cmp .lin{display:grid;grid-template-columns:1fr 90px 90px 84px;gap:10px;align-items:center;padding:10px 0}
+.pc-cmp .cab{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--mute2);border-bottom:1px solid var(--line);padding-top:0}
+.pc-cmp .lin{border-bottom:1px solid var(--line)}
+.pc-cmp .lin:last-child{border-bottom:0}
+.pc-cmp .rot{display:flex;align-items:center;gap:7px;color:var(--mute)}
+.pc-cmp .rot i{width:9px;height:9px;border-radius:2px;flex:0 0 auto}
+.pc-cmp .va,.pc-cmp .vb,.pc-cmp .vd{font-family:var(--mono);text-align:right}
+.pc-cmp .va{font-weight:700;color:var(--ink)}
+.pc-cmp .vb{color:var(--mute)}
+.pc-cmp .vd{font-size:12px;color:var(--mute2)}
+.pc-cmp .vd.ok{color:var(--ok)}
+.pc-cmp .vd.ruim{color:var(--bad)}
+.pc-cmp .ca,.pc-cmp .cb,.pc-cmp .cd{text-align:right}
+@media(max-width:640px){
+  .pc-hist .hl{grid-template-columns:1fr auto;row-gap:8px}
+  .pc-hist .nums{grid-column:1/-1}
+  .pc-cmp .cab,.pc-cmp .lin{grid-template-columns:1fr 70px 70px 64px;gap:6px;font-size:12px}
+}
+.pc-legenda{display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:11.5px;color:var(--mute);
+  padding-bottom:12px;margin-bottom:4px;border-bottom:1px solid var(--line)}
+.pc-legenda span{display:inline-flex;align-items:center;gap:6px}
+.pc-legenda i{width:9px;height:9px;border-radius:2px;display:inline-block;flex:0 0 auto}
+.pc-legenda .lg input{width:54px;margin-left:2px;font-family:var(--mono);font-size:11.5px;font-weight:700;
+  color:var(--ink);background:var(--panel2);border:1px solid var(--line2);border-radius:6px;
+  padding:2px 4px;text-align:center;-moz-appearance:textfield}
+.pc-legenda .lg input::-webkit-outer-spin-button,
+.pc-legenda .lg input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.pc-legenda .lg input:focus{outline:2px solid var(--ig-blue);outline-offset:-1px;border-color:var(--ig-blue)}
+.pc-legenda .lgfoot{margin-left:auto;color:var(--mute2);font-size:10.5px}
+.pc-legenda .lgfoot .pc-lnk{font-size:10.5px;padding-left:8px}
+@media(max-width:560px){.pc-legenda .lgfoot{margin-left:0;width:100%}}
+.pc-postv{display:grid;grid-template-columns:1fr 190px 84px;gap:16px;align-items:center;
+  padding:13px 0;border-bottom:1px solid var(--line)}
+.pc-postv:last-of-type{border-bottom:0}
+.pc-postv .t{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pc-postv .m{font-family:var(--mono);font-size:10.5px;color:var(--mute2);margin-top:3px}
+.pc-seg{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
+.pc-seg .s{background:var(--panel2);border-radius:3px;overflow:hidden}   /* posição e altura vêm da regra de foco acima */
+.pc-seg .s i{position:absolute;left:0;right:0;bottom:0;display:block;border-radius:3px}
+.pc-seg .s.cheio::after{content:"";position:absolute;inset:0;border:1px solid currentColor;
+  border-radius:3px;opacity:.35;pointer-events:none}
+.pc-val{text-align:right}
+.pc-val b{font-family:var(--mono);font-size:16px;font-weight:700}
+.pc-val .tag{display:block;font-family:var(--mono);font-size:9.5px;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.pc-val.alto b,.pc-val.alto .tag{color:var(--ok)}
+.pc-val.baixo b,.pc-val.baixo .tag{color:var(--bad)}
+.pc-val.novo b{color:var(--mute2);font-weight:500}
+.pc-val.novo .tag{color:var(--mute2)}
+.pc-mediaconta{font-size:12px;color:var(--mute);padding-top:14px;margin-top:2px;border-top:1px solid var(--line)}
+.pc-mediaconta b{color:var(--ink);font-weight:700;font-family:var(--mono)}
+@media(max-width:700px){.pc-postv{grid-template-columns:1fr 120px 64px;gap:10px}}
+
+/* diagnóstico */
+.pc-acao{border-left:3px solid var(--ig-pink)}
+.pc-acao h3{margin:0 0 8px;font-size:14px;font-weight:700;line-height:1.45}
+.pc-acao p{margin:0 0 9px;font-size:13.5px;line-height:1.6}
+.pc-acao p:last-of-type{margin-bottom:0}
+.pc-acao .pq{font-size:12.5px;color:var(--mute)}
+.pc-acao b.dado{font-family:var(--mono);font-weight:700}
+.pc-acao .rodapinho{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute2)}
+.pc-prio{background:var(--panel2);border-radius:var(--r-sm);padding:14px 16px;margin:14px 0 12px}
+.pc-prio-t{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--mute);margin-bottom:9px}
+.pc-prio .pr{display:grid;grid-template-columns:18px 150px 1fr 46px;gap:10px;align-items:center;padding:5px 0}
+.pc-prio .pos{font-family:var(--mono);font-size:10.5px;color:var(--mute2)}
+.pc-prio .nm{font-size:12.5px;display:inline-flex;align-items:center;gap:7px}
+.pc-prio .nm i{width:9px;height:9px;border-radius:2px;flex:0 0 auto}
+.pc-prio .tr2{height:8px;background:var(--panel);border-radius:3px;overflow:hidden}
+.pc-prio .tr2 i{display:block;height:100%;border-radius:0 3px 3px 0}
+.pc-prio .pp{text-align:right;font-family:var(--mono);font-size:12px;font-weight:700}
+.pc-prio .pp.crit{color:var(--bad)}.pc-prio .pp.meio{color:var(--ink)}.pc-prio .pp.ok{color:var(--ok)}
+@media(max-width:700px){.pc-prio .pr{grid-template-columns:16px 106px 1fr 40px;gap:7px}}
+
+/* aba Posts */
+.pc-lin{border-bottom:1px solid var(--line);transition:background .16s}
+.pc-lin:last-child{border-bottom:0}
+.pc-lin:hover,.pc-lin:focus-within{background:var(--panel2)}
+.pc-lin .cab2{display:grid;grid-template-columns:1fr 112px 70px;gap:14px;align-items:center;
+  padding:13px 12px;border-radius:var(--r-sm)}
+.pc-lin .tt{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pc-lin .dd{font-family:var(--mono);font-size:10.5px;color:var(--mute2);margin-top:3px;
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.pc-lin .mini4{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
+.pc-lin .mini4 span{height:18px;background:var(--panel2);border-radius:3px;position:relative;overflow:hidden}
+.pc-lin:hover .mini4 span,.pc-lin:focus-within .mini4 span{background:var(--panel)}
+.pc-lin .mini4 span i{position:absolute;left:0;right:0;bottom:0;display:block;border-radius:3px}
+.pc-lin .vv{text-align:right;font-family:var(--mono);font-size:14px;font-weight:700}
+.pc-lin .vv.ok{color:var(--ok)}.pc-lin .vv.no{color:var(--ink)}
+.pc-lin .vv.nv{color:var(--mute2);font-weight:500}
+.pc-lin .det{display:grid;grid-template-rows:0fr;transition:grid-template-rows .26s ease}
+.pc-lin:hover .det,.pc-lin:focus-within .det{grid-template-rows:1fr}
+.pc-lin .det>div{overflow:hidden}
+.pc-lin .detin{padding:2px 12px 16px}
+.pc-lin .mgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:12px}
+.pc-lin .mcel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 11px}
+.pc-lin .mcel .n1{font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--mute2)}
+.pc-lin .mcel .n2{font-family:var(--mono);font-size:17px;font-weight:700;margin-top:4px;line-height:1}
+.pc-lin .mcel .n3{font-family:var(--mono);font-size:10px;color:var(--mute2);margin-top:4px}
+.pc-lin .mcel .bar2{height:5px;background:var(--panel2);border-radius:3px;margin-top:7px;overflow:hidden}
+.pc-lin .mcel .bar2 i{display:block;height:100%;border-radius:3px}
+.pc-lin .mcel.sem .n2{color:var(--mute2);font-weight:500;font-size:13px}
+.pc-lin .extra{display:flex;gap:20px;flex-wrap:wrap;font-size:11.5px;color:var(--mute);align-items:center}
+.pc-lin .extra b{color:var(--ink);font-weight:700;font-family:var(--mono)}
+.pc-lin .extra a{color:var(--ig-blue);text-decoration:none}
+.pc-lin .extra a:hover{text-decoration:underline}
+@media(max-width:820px){.pc-lin .mgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.pc-lin .cab2{grid-template-columns:1fr 80px 56px;gap:9px}}
+@media(prefers-reduced-motion:reduce){.pc-lin .det{transition:none}}
+
+/* metas de validação */
+.pc-metasv{background:var(--panel2);border-radius:var(--r-sm);padding:16px 18px;margin-top:4px}
+.pc-metasv .campos{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.pc-metasv .cp label{display:block;font-size:11px;color:var(--mute);margin-bottom:5px}
+.pc-metasv .cp .ln{display:flex;align-items:center;gap:7px}
+.pc-metasv .cp i{width:9px;height:9px;border-radius:2px;flex:0 0 auto}
+.pc-metasv input{width:100%;font-family:var(--mono);font-size:14px;font-weight:700;color:var(--ink);
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 10px;min-width:0}
+.pc-metasv input:focus{outline:2px solid var(--ig-blue);outline-offset:-1px;border-color:var(--ig-blue)}
+.pc-metasv input:disabled{color:var(--mute2);background:transparent;font-weight:500;
+  font-family:var(--body);font-size:13px;cursor:default}
+.pc-metasv .eq{font-size:10.5px;color:var(--mute2);margin-top:5px;font-family:var(--mono)}
+.pc-metasv .rod{font-size:12px;color:var(--mute);margin-top:14px;line-height:1.6}
+.pc-metasv .rod b{color:var(--ink);font-weight:600}
+@media(max-width:700px){.pc-metasv .campos{grid-template-columns:repeat(2,1fr)}}
 </style>
 
 <div class="pc-spine"></div>
@@ -238,6 +641,9 @@ table.pc-t td:last-child,table.pc-t th:last-child{padding-right:0}
         <button class="pc-tab" role="tab" data-tab="metas" aria-selected="false">
           <span class="ico" aria-hidden="true">◎</span><span>Metas</span>
         </button>
+        <button class="pc-tab" role="tab" data-tab="historico" aria-selected="false">
+          <span class="ico" aria-hidden="true">◷</span><span>Histórico</span>
+        </button>
       </nav>
 
       <div class="pc-stamp" id="stamp">—</div>
@@ -258,6 +664,7 @@ const KEY = 'editorx:conteudo:v1';
 
 /* endpoint da função serverless na Vercel que fala com a Instagram Graph API. */
 const IG_ENDPOINT = '/api/ig-sync';
+const HIST_ENDPOINT = '/api/historico';
 
 const FORMATOS = {
   'Reels':     '#DD2A7B',
@@ -301,13 +708,13 @@ const AGREGACOES = {
   contagem:{soma:'Total no período'}
 };
 
-const DEFAULT_METAS = [
-  {id:'m1', nome:'Posts publicados',      metrica:'posts',           agregacao:'soma',        periodo:'7',   dias:7,  formato:'todos', persona:'todos', direcao:'min', alvo:4},
-  {id:'m2', nome:'Alcance no mês',        metrica:'alcance',         agregacao:'soma',        periodo:'mes', dias:30, formato:'todos', persona:'todos', direcao:'min', alvo:50000},
-  {id:'m3', nome:'Novos seguidores',      metrica:'novosSeguidores', agregacao:'soma',        periodo:'mes', dias:30, formato:'todos', persona:'todos', direcao:'min', alvo:300},
-  {id:'m4', nome:'Engajamento médio',     metrica:'engajamento',     agregacao:'media',       periodo:'30',  dias:30, formato:'todos', persona:'todos', direcao:'min', alvo:6},
-  {id:'m5', nome:'Salvamento em Reels',   metrica:'txSalv',          agregacao:'media',       periodo:'30',  dias:30, formato:'Reels', persona:'todos', direcao:'min', alvo:1}
-];
+/* Nao existe meta padrao avulsa: toda metrica do painel ja tem a sua meta
+   nos blocos acima (Como esta a pagina e Dados de engajamento no mes).
+   "Metas extras" e so para cruzamentos que o painel nao mostra. */
+const DEFAULT_METAS = [];
+
+/* metas que duplicavam indicadores do painel — removidas de quem ja tinha o painel salvo */
+const METAS_REMOVIDAS = ['m1','m2','m3','m4','m5'];
 
 function metaVazia(){
   return {id:uid(), nome:'', metrica:'alcance', agregacao:'soma', periodo:'30', dias:30,
@@ -324,15 +731,27 @@ const DEFAULT_BENCH = {
   conversao: 10       // seguidores / visitas %
 };
 
+const DEFAULT_VALID = { views:0, curtidas:0, compart:0, salvos:0 };  // 0 = usar sugestão automática
+const DEFAULT_TOPO  = { validadas:0, novosSeg:0 };                   // 0 = derivar automaticamente
+
+/* metas da cadeia em numero absoluto no mes. 0 = derivar da porcentagem do DEFAULT_BENCH */
+const DEFAULT_ALVO = { alcance:0, salvamento:0, compartilhamento:0 };
+
 let state = {
   posts: [],
   metas: DEFAULT_METAS.map(m=>({...m})),
   bench: {...DEFAULT_BENCH},
+  valid: {...DEFAULT_VALID},
+  topo: {...DEFAULT_TOPO},
+  alvo: {...DEFAULT_ALVO},
   seguidores: 0,
   exportadoEm: null
 };
 
 let ui = { tab:'painel', periodo:30, editId:null, msg:null, ordem:'data', draft:null };
+
+/* arquivo semanal vindo do servidor — carregado sob demanda ao abrir a aba */
+let hist = { estado:'inicio', itens:[], erro:null, a:null, b:null, cache:{} };
 
 /* ---------- persistência em camadas ----------
    Toda alteração é gravada ao mesmo tempo em todas as camadas disponíveis:
@@ -470,22 +889,26 @@ const carimbo = txt => {
 
 /* aceita tanto o formato novo (metas em lista) quanto o antigo (metas fixas) */
 function aplicar(d){
-  let metas;
-  if(Array.isArray(d.metas)) metas = d.metas;
-  else if(d.metas && typeof d.metas==='object'){
+  let metas = Array.isArray(d.metas) ? d.metas : [];
+
+  // remove as metas que duplicavam indicadores que o painel ja mostra
+  metas = metas.filter(m => !METAS_REMOVIDAS.includes(m.id));
+
+  // formato antigo (metas fixas em objeto): as percentuais viram a cadeia de engajamento
+  const bench = {...DEFAULT_BENCH, ...(d.bench||{})};
+  if(d.metas && !Array.isArray(d.metas) && typeof d.metas==='object'){
     const o = d.metas;
-    metas = DEFAULT_METAS.map(m=>({...m}));
-    if(o.postsSemana!=null)   metas[0].alvo = Number(o.postsSemana);
-    if(o.alcanceMes!=null)    metas[1].alvo = Number(o.alcanceMes);
-    if(o.seguidoresMes!=null) metas[2].alvo = Number(o.seguidoresMes);
-    if(o.engajamento!=null)   metas[3].alvo = Number(o.engajamento);
-    if(o.salvamento!=null){ metas[4].alvo = Number(o.salvamento); metas[4].formato='todos'; metas[4].nome='Salvamento médio'; }
-  } else metas = DEFAULT_METAS.map(m=>({...m}));
+    if(o.engajamento!=null && d.bench==null) bench.engajamento = Number(o.engajamento);
+    if(o.salvamento!=null  && d.bench==null) bench.salvamento  = Number(o.salvamento);
+  }
 
   state = {
     posts: Array.isArray(d.posts) ? d.posts : [],
     metas,
-    bench: {...DEFAULT_BENCH, ...(d.bench||{})},
+    bench,
+    valid: {...DEFAULT_VALID, ...(d.valid||{})},
+    topo:  {...DEFAULT_TOPO,  ...(d.topo||{})},
+    alvo:  {...DEFAULT_ALVO,  ...(d.alvo||{})},
     seguidores: Number(d.seguidores)||0,
     exportadoEm: d.exportadoEm || null,
     salvoEm: d.salvoEm || null
@@ -811,115 +1234,309 @@ function render(){
     `<br><span id="salvo" style="color:${s.c}">${esc(s.t)}</span>`;
 
   const v = document.getElementById('view');
+  v.dataset.tab = ui.tab;
   if(ui.tab==='painel')    v.innerHTML = viewPainel();
   if(ui.tab==='registrar') v.innerHTML = viewRegistrar();
   if(ui.tab==='posts')     v.innerHTML = viewPosts();
   if(ui.tab==='metas')     v.innerHTML = viewMetas();
+  if(ui.tab==='historico') v.innerHTML = viewHistorico();
   ligarEventos();
 }
 
 /* ---------- PAINEL ---------- */
+/* Icones de contorno desenhados aqui — mesma linguagem visual do Instagram
+   (traco fino, pontas arredondadas). Nao sao os arquivos da Meta. */
+const SVG = d => `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+  stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+const ICO = {
+  reacoes:    SVG('<path d="M12 20.4S3.6 14.9 3.6 9.2A4.7 4.7 0 0 1 12 6.6a4.7 4.7 0 0 1 8.4 2.6c0 5.7-8.4 11.2-8.4 11.2Z"/>'),
+  validadas:  SVG('<circle cx="12" cy="12" r="8.6"/><path d="m8.2 12.3 2.7 2.6 4.9-5.4"/>'),
+  seguidores: SVG('<circle cx="10" cy="8.2" r="3.5"/><path d="M3.9 19.3a6.1 6.1 0 0 1 12.2 0"/><path d="M18.6 7.7v4.8M21 10.1h-4.8"/>'),
+  olho:       SVG('<path d="M2.5 12S6.4 5.7 12 5.7 21.5 12 21.5 12 17.6 18.3 12 18.3 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.9"/>'),
+  aviao:      SVG('<path d="M20.8 3.4 10.6 13.6"/><path d="M20.8 3.4 14.3 20.9l-3.7-7.3-7.3-3.7 17.5-6.5Z"/>'),
+  marcador:   SVG('<path d="M6.4 3.8h11.2v16.4L12 16.2l-5.6 4V3.8Z"/>'),
+  relogio:    SVG('<circle cx="12" cy="12" r="8.6"/><path d="M12 7.3V12l3.2 1.9"/>')
+};
+
+/* ---------- VALIDAÇÃO ---------- */
+const VCOMP = [
+  {k:'views',    rot:'visualizações',    cor:'var(--c-cyan)',    campo:'views',            ico:'olho'},
+  {k:'curtidas', rot:'curtidas',          cor:'var(--ig-red)',    campo:'curtidas',         ico:'reacoes'},
+  {k:'compart',  rot:'compartilhamentos', cor:'var(--ig-purple)', campo:'compartilhamentos',ico:'aviao'},
+  {k:'salvos',   rot:'salvamentos',       cor:'var(--c-magenta)', campo:'salvamentos',      ico:'marcador'}
+];
+
+function medianaDe(a){ const b=a.slice().sort((x,y)=>x-y), m=b.length>>1;
+  return b.length ? (b.length%2 ? b[m] : (b[m-1]+b[m])/2) : 0; }
+
+function metasSugeridas(){
+  const P = state.posts;
+  if(!P.length) return {views:100, curtidas:10, compart:2, salvos:2};
+  return {
+    views:    Math.max(1, Math.ceil(medianaDe(P.map(p=>n(p.views)))*1.3)),
+    curtidas: Math.max(1, Math.ceil(medianaDe(P.map(p=>n(p.curtidas)))*1.3)),
+    compart:  Math.max(1, Math.ceil(medianaDe(P.map(p=>n(p.compartilhamentos)))*1.3)),
+    salvos:   Math.max(1, Math.ceil(medianaDe(P.map(p=>n(p.salvamentos)))*1.3))
+  };
+}
+function metasValid(){
+  const sug = metasSugeridas(), v = state.valid || {};
+  return { views: n(v.views)>0?n(v.views):sug.views,
+           curtidas: n(v.curtidas)>0?n(v.curtidas):sug.curtidas,
+           compart: n(v.compart)>0?n(v.compart):sug.compart,
+           salvos: n(v.salvos)>0?n(v.salvos):sug.salvos };
+}
+function metaValidadas(){
+  const t = state.topo||{};
+  if(n(t.validadas)>0) return n(t.validadas);
+  return Math.max(1, state.posts.filter(maduro).length);   // padrão: todas
+}
+function metaNovosSeg(){
+  const t = state.topo||{}, b = state.bench;
+  if(n(t.novosSeg)>0) return n(t.novosSeg);
+  return Math.round(b.visitaPerfil/100 * b.conversao/100 * soma(state.posts,'alcance'));
+}
+
+/* --- metas da cadeia, sempre em numero de pessoas no mes ---
+   o campo guarda o numero; a porcentagem vira observacao.
+   0 no campo = derivar da porcentagem de referencia. */
+function metaAlcance(){
+  const a = n((state.alvo||{}).alcance); if(a>0) return a;
+  return Math.round(state.bench.distribuicao/100 * n(state.seguidores) * (state.posts.length||1));
+}
+function metaGuardaram(){
+  const a = n((state.alvo||{}).salvamento); if(a>0) return a;
+  return Math.round(state.bench.salvamento/100 * soma(state.posts,'alcance'));
+}
+function metaRepassaram(){
+  const a = n((state.alvo||{}).compartilhamento); if(a>0) return a;
+  return Math.round(state.bench.compartilhamento/100 * soma(state.posts,'alcance'));
+}
+/* a porcentagem que um numero de meta representa — usada so como observacao */
+function pctDe(valor, base){
+  if(!base) return null;
+  return valor/base*100;
+}
+const obsPct = (valor, base, sufixo) => {
+  const p = pctDe(valor, base);
+  return p===null ? 'sem base medida ainda' : `= ${p.toFixed(p<10?1:0).replace('.',',')}% ${sufixo}`;
+};
+
+function dataHora(p){ return p.ts ? new Date(p.ts) : (p.data ? new Date(p.data+'T12:00:00Z') : null); }
+function maduro(p){ const d=dataHora(p); return d ? (Date.now()-d)/36e5 >= 24 : true; }
+
+function partesValid(p){
+  const M = metasValid();
+  return VCOMP.map(c => {
+    const real = n(p[c.campo]), alvo = M[c.k];
+    return {...c, real, alvo, pct: alvo>0 ? Math.min(real/alvo, 1) : 0};
+  });
+}
+function scoreValid(p){
+  const q = partesValid(p);
+  return q.reduce((a,x)=>a+x.pct,0)/q.length*100;
+}
+
 function viewPainel(){
-  const lista = postsFiltrados();
   if(!state.posts.length) return vazio();
 
-   const eng   = media(lista, engaj);
-  const alc   = soma(lista,'alcance');
-  const views = soma(lista,'views');
-  const curt  = soma(lista,'curtidas');
-  const inter = soma(lista,'interacoes');
-  const rotulo = ui.periodo==='tudo' ? 'todo o período' : `últimos ${ui.periodo} dias`;
+  const P = state.posts;
+  const ALC = soma(P,'alcance'), INT = soma(P,'interacoes') || soma(P,'curtidas')+soma(P,'comentarios')+soma(P,'compartilhamentos')+soma(P,'salvamentos');
+  const SAL = soma(P,'salvamentos'), COM = soma(P,'compartilhamentos');
+  const SEG = n(state.seguidores), b = state.bench;
 
-  const dConta = state.periodoConta || 30;
-  const contaKpis = [
-    {t:'Seguidores', v:N(state.seguidores||0), c:'var(--c-magenta)', s:'total atual da conta'},
-    {t:'Visitas ao perfil', v: state.visitasPerfil==null ? '—' : N(state.visitasPerfil), c:'var(--c-blue)', s: state.visitasPerfil==null ? 'indisponível para esta conta' : `últimos ${dConta} dias`},
-    {t:'Publicações', v:N(state.totalPosts||state.posts.length), c:'var(--c-green)', s:'no perfil'}
+  const maduros = P.filter(maduro);
+  const validados = maduros.filter(p=>scoreValid(p)>=100).length;
+
+  /* --- cadeia com metas proprias --- */
+  const metaAlc = metaAlcance();
+  const metaSal = metaGuardaram();
+  const metaCom = metaRepassaram();
+  const metaSeg = metaNovosSeg();
+  const porPub  = SEG ? (metaAlc/(P.length||1)/SEG*100) : null;
+  const novosSeg = n(state.novosSeguidores);
+  const mValid = metaValidadas(), mNovos = metaNovosSeg();
+
+  /* porcentagem lida no proprio verbo da etapa: "2,3% guardaram" */
+  const pc = (parte, base) => {
+    if(!base) return null;
+    const v = parte/base*100;
+    return v.toFixed(v<10?1:0).replace('.',',')+'%';
+  };
+  const comVerbo = (parte, base, verbo) => { const t = pc(parte,base); return t ? `${t} ${verbo}` : null; };
+
+  const cadeia = [
+    {nome:'Alcance', q:ALC, meta:metaAlc, cor:'var(--c-cyan)',
+     obs: SEG ? `${pc(ALC/(P.length||1), SEG)} da base por publicação` : null,
+     base:'contas diferentes que viram alguma publicação'},
+    {nome:'Reagiram', q:INT, meta:null, cor:'var(--c-blue)',
+     obs: comVerbo(INT, ALC, 'reagiram'),
+     base:'sem meta — indicador de volume'},
+    {ramo:[
+      {nome:'Guardaram', q:SAL, meta:metaSal, cor:'var(--c-magenta)',
+       obs: comVerbo(SAL, ALC, 'guardaram'),
+       base:'salvaram para rever depois'},
+      {nome:'Repassaram', q:COM, meta:metaCom, cor:'var(--ig-purple)',
+       obs: comVerbo(COM, ALC, 'repassaram'),
+       base:'mandaram para outra pessoa'}
+    ]},
+    {nome:'Passaram a seguir', q:novosSeg, meta:metaSeg, cor:'var(--c-amber)',
+     obs: comVerbo(novosSeg, ALC, 'passaram a seguir'),
+     base:'começaram a seguir o perfil'}
   ];
+  const planas = cadeia.flatMap(e => e.ramo ? e.ramo : [e]);
+  const comMeta = planas.filter(e => e.meta !== null);
+  const primeiraFora = comMeta.find(e => e.q < e.meta);
+  const ramo = cadeia.find(e => e.ramo);
+  const piorRamo = ramo ? ramo.ramo.slice().sort((a,c)=>(a.q/a.meta)-(c.q/c.meta))[0] : null;
+  const alvoTrava = (primeiraFora && ramo && ramo.ramo.includes(primeiraFora)) ? piorRamo : primeiraFora;
 
-  const kpis = [
-    {t:'Visualizações', v:N(views), c:'var(--c-cyan)',  s:`${lista.length} post${lista.length===1?'':'s'} no período`},
-    {t:'Alcance',    v:N(alc),   c:'var(--c-blue)',  s:`${P(alc>0?views/alc*100:0,0)}% de visualizações sobre alcance`},
-    {t:'Curtidas',   v:N(curt),  c:'var(--c-amber)', s:`engajamento médio ${P(eng)}%`},
-    {t:'Interações', v:N(inter), c:'var(--c-green)', s:'curtidas + comentários + compart. + salvos'}
-  ];
-    
+  const sit = e => {
+    if(e.meta === null) return '';
+    const ok = e.q >= e.meta;
+    const t = e.q===0 ? 'nenhuma pessoa'
+      : ok ? (e.meta ? (e.q/e.meta).toFixed(1).replace('.',',')+'× a meta' : 'acima da meta')
+           : Math.round((1-e.q/e.meta)*100)+'% abaixo da meta';
+    return `<b class="${ok?'ok':'ruim'}">${t}</b>`;
+  };
+  const linhaEt = (e, escala) => {
+    const esc2 = escala || Math.max(e.q, e.meta||0)*1.12 || 1;
+    const pes = [sit(e), e.obs, e.base].filter(Boolean).join(' · ');
+    return `
+      <div class="top">
+        <span class="nome">${e.nome}${e===alvoTrava?'<em>é aqui que trava</em>':''}</span>
+        <span class="qtd">${N(e.q)}${e.meta===null?'<u>sem meta</u>':`<u>meta ${N(e.meta)}</u>`}</span>
+      </div>
+      <div class="pc-tr">
+        <i style="width:${Math.min((e.q/esc2)*100,100)}%;background:${e.cor}"></i>
+        ${e.meta===null?'':`<s style="left:${Math.min((e.meta/esc2)*100,100)}%"></s>`}
+      </div>
+      <div class="queda">${pes}</div>`;
+  };
 
-  const est = funil(lista);
-  const g = gargalo(est);
+  /* --- diagnóstico semanal --- */
+  const comData = P.map(p=>({p, d:dataHora(p)})).filter(x=>x.d);
+  const fimS = comData.length ? comData.reduce((a,x)=>x.d>a?x.d:a, comData[0].d) : new Date();
+  const iniS = new Date(Date.UTC(fimS.getUTCFullYear(), fimS.getUTCMonth(), fimS.getUTCDate()-6));
+  const semana = comData.filter(x=>x.d>=iniS && maduro(x.p)).map(x=>x.p);
+
+  let diag;
+  if(!semana.length){
+    diag = `<h3>Nenhuma publicação nos últimos 7 dias.</h3>
+      <p>O diagnóstico precisa de ao menos uma publicação com mais de 24 h na semana.</p>`;
+  } else {
+    const forca = VCOMP.map(c=>{
+      const M = metasValid();
+      return {c, m: semana.reduce((a,p)=>a+Math.min(n(p[c.campo])/M[c.k],1),0)/semana.length};
+    }).sort((a,c)=>a.m-c.m);
+    const ordem = forca.map(f=>({rot:f.c.rot, cor:f.c.cor, pct:Math.round(f.m*100)}));
+    const abaixo = ordem.filter(o=>o.pct<100), acima = ordem.filter(o=>o.pct>=100);
+    const crit = abaixo.filter(o=>o.pct<50);
+    const validSem = semana.filter(p=>scoreValid(p)>=100).length;
+    const melhor = semana.slice().sort((a,c)=>scoreValid(c)-scoreValid(a))[0];
+    const cap = t => t.charAt(0).toUpperCase()+t.slice(1);
+    const lista = l => l.length>1 ? l.slice(0,-1).join(', ')+' e '+l[l.length-1] : l[0];
+
+    diag = `
+      <h3>${abaixo.length===0 ? 'Todos os indicadores atingiram a meta.'
+        : crit.length ? `${lista(crit.map((o,i)=>i===0?cap(o.rot):o.rot))} ${crit.length>1?'estão':'está'} abaixo da metade da meta.`
+        : `${cap(abaixo[0].rot)} é o indicador mais distante da meta.`}</h3>
+      <p><b class="dado">${validSem}</b> de ${semana.length} publicaç${semana.length>1?'ões validadas':'ão validada'} na semana ·
+         melhor foi <b>${dataBR(melhor.data)}</b> com <b class="dado">${Math.round(scoreValid(melhor))}%</b>.</p>
+      <div class="pc-prio">
+        <div class="pc-prio-t">Indicadores por distância da meta</div>
+        ${ordem.map((o,i)=>`
+          <div class="pr">
+            <span class="pos">${i+1}</span>
+            <span class="nm"><i style="background:${o.cor}"></i>${o.rot}</span>
+            <span class="tr2"><i style="width:${Math.min(o.pct,100)}%;background:${o.cor}"></i></span>
+            <span class="pp ${o.pct<50?'crit':o.pct<100?'meio':'ok'}">${o.pct}%</span>
+          </div>`).join('')}
+      </div>
+      <p class="pq">${abaixo.length
+        ? `Priorize <b>${abaixo[0].rot}</b>${abaixo.length>1?` e depois <b>${abaixo[1].rot}</b>`:''}.
+           ${acima.length?`${lista(acima.map(o=>o.rot))} já ${acima.length>1?'atingiram':'atingiu'} a meta — não é ali que está a perda.`:''}`
+        : 'Suba as metas até algum indicador ficar abaixo — meta que todo post bate deixa de medir.'}</p>`;
+  }
+
+  const dbr = d => String(d.getUTCDate()).padStart(2,'0')+'/'+String(d.getUTCMonth()+1).padStart(2,'0');
 
   return `
-  <div class="pc-filters">
-    ${[7,30,90,'tudo'].map(p=>`<button class="pc-chip" data-periodo="${p}" aria-pressed="${String(ui.periodo)===String(p)}">${p==='tudo'?'Tudo':p+' dias'}</button>`).join('')}
-  </div>
-
-    <div class="pc-sec" style="margin-top:4px"><h2>Conta</h2><span>números do perfil</span></div>
-  <div class="pc-grid pc-g4">
-    ${contaKpis.map(k=>`
-      <div class="pc-kpi" style="--kc:${k.c}">
-        <h3>${k.t}</h3>
-        <div class="v">${k.v}</div>
-        <div class="s">${k.s}</div>
-      </div>`).join('')}
-  </div>
-
-  <div class="pc-sec" style="margin-top:16px"><h2>Conteúdo</h2><span>${rotulo}</span></div>
-  <div class="pc-grid pc-g4">
-    ${kpis.map(k=>`
-      <div class="pc-kpi" style="--kc:${k.c}">
-        <h3>${k.t}</h3>
-        <div class="v">${k.v}</div>
-        <div class="s">${k.s}</div>
-      </div>`).join('')}
-  </div>
-
-  <div class="pc-panel" style="margin-top:14px">
-    <div class="pc-sec">
-      <h2>Engajamento por post</h2>
-      <span>${rotulo} · ordem cronológica</span>
-    </div>
-    ${scope(lista)}
-    <div class="pc-tip" id="tip">Passe o cursor sobre uma barra para ler o post.</div>
-    <div class="pc-legend">
-      ${Object.entries(FORMATOS).map(([f,c])=>`<span><i style="background:${c}"></i>${f}</span>`).join('')}
-    </div>
-  </div>
-
-  <div class="pc-grid pc-g2" style="margin-top:14px">
-    <div class="pc-panel">
-      <div class="pc-sec"><h2>Funil</h2><span>real / meta</span></div>
-      ${est.map(e=>estagioHTML(e)).join('')}
-    </div>
-    <div>
-      <div class="pc-panel">
-        <div class="pc-sec"><h2>Diagnóstico</h2><span>gargalo mais alto do funil</span></div>
-        ${veredito(g, lista)}
-      </div>
-      <div class="pc-panel">
-        <div class="pc-sec"><h2>Por formato</h2><span>engajamento médio</span></div>
-        ${porFormato(lista)}
-      </div>
-    </div>
-  </div>
-
-  <div class="pc-panel" style="margin-top:14px">
-    <div class="pc-sec">
-      <h2>Metas</h2>
-      <span>${state.metas.filter(m=>progressoMeta(m).ok).length} de ${state.metas.length} batidas · cada meta tem período próprio</span>
-    </div>
-    ${state.metas.length ? state.metas.map(m=>{
-      const g = progressoMeta(m);
-      return `<div class="pc-goal">
-        <div class="top">
-          <span class="nm">${esc(m.nome||nomeSugerido(m))}
-            <span style="font-family:var(--mono);font-size:10px;color:var(--mute2);letter-spacing:.06em;margin-left:8px">${esc(rotuloPeriodo(m))}${m.formato!=='todos'?' · '+esc(m.formato):''}</span>
-          </span>
-          <span class="pct"><b style="color:${g.cor};font-weight:500">${fmtMeta(m,g.valor)}</b> <u style="text-decoration:none;color:var(--mute2)">${m.direcao==='max'?'máx.':'/'} ${fmtMeta(m,g.alvo)}</u></span>
+  <section class="pc-passo">
+    <header><h2>Como está a página</h2><span class="ap">${P.length} publicações no período</span></header>
+    <div class="pc-panel" style="padding:22px 24px">
+      <div class="pc-tres">
+        <div class="ind">
+          <div class="pc-rot">${ICO.reacoes}Reações</div>
+          <div class="v">${N(INT)}</div>
+          <div class="ref sem">no período</div>
+          <div class="cx">curtidas, comentários, salvamentos e compartilhamentos</div>
         </div>
-        <div class="pc-track"><div class="pc-fill" style="width:${g.pct}%;background:${g.cor}"></div></div>
-      </div>`;
-    }).join('') : `<p class="pc-note">Nenhuma meta definida. Crie na aba <b>Metas</b>.</p>`}
-  </div>`;
+        <div class="ind">
+          <div class="pc-rot">${ICO.validadas}Publicações validadas</div>
+          <div class="v">${validados} de ${maduros.length}</div>
+          <div class="ref ${validados>=mValid?'bom':'ruim'}">meta ${mValid} · <b>${validados>=mValid?'atingida':'não atingida'}</b></div>
+          <div class="cx">bateram as quatro metas por publicação</div>
+        </div>
+        <div class="ind">
+          <div class="pc-rot">${ICO.seguidores}Novos seguidores</div>
+          <div class="v">${N(novosSeg)}</div>
+          <div class="ref ${novosSeg>=mNovos?'bom':'ruim'}">meta ${N(mNovos)} · <b>${novosSeg>=mNovos?'atingida':'não atingida'}</b></div>
+          <div class="cx">saldo do período</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pc-passo">
+    <header><h2>Dados de engajamento no mês</h2><span class="ap">cada etapa comparada com a sua meta</span></header>
+    <div class="pc-panel">
+      ${cadeia.map(e=>{
+        if(!e.ramo) return `<div class="pc-etapa">${linhaEt(e)}</div>`;
+        const esc2 = Math.max(...e.ramo.map(r=>Math.max(r.q,r.meta)))*1.12 || 1;
+        return `<div class="pc-etapa ramo">
+          <div class="ramo-nota">as duas coisas acontecem em paralelo — uma pessoa pode fazer só uma delas</div>
+          ${e.ramo.map(r=>`<div class="sub">${linhaEt(r,esc2)}</div>`).join('')}
+        </div>`;
+      }).join('')}
+    </div>
+  </section>
+
+  <section class="pc-passo">
+    <header><h2>Validação do público</h2><span class="ap">quanto cada publicação atingiu das metas</span></header>
+    <div class="pc-panel pc-valpanel" id="valpanel">
+      ${reguaValidacao()}
+      ${P.slice().sort((a,c)=>scoreValid(c)-scoreValid(a)).map(p=>{
+        const q = partesValid(p), sc = scoreValid(p), md = maduro(p);
+        const nivel = !md ? 'novo' : sc>=100 ? 'alto' : 'baixo';
+        const tag = !md ? 'ainda medindo' : sc>=100 ? 'validado' : 'não validado';
+        return `
+        <div class="pc-postv">
+          <div>
+            <div class="t">${esc(p.titulo)}</div>
+            <div class="m">${dataBR(p.data)} · ${N(p.alcance)} visualizadores</div>
+          </div>
+          <div class="pc-seg">
+            ${q.map(x=>`<div class="sg" data-k="${x.k}" style="color:${x.cor}" title="${x.rot}: ${N(x.real)} de ${N(x.alvo)}"><b class="qv">${N(x.real)}</b><div class="s${x.pct>=1?' cheio':''}"><i style="height:${x.pct*100}%;background:${x.cor}"></i></div></div>`).join('')}
+          </div>
+          <div class="pc-val ${nivel}"><b>${md?Math.round(sc)+'%':'—'}</b><span class="tag">${tag}</span></div>
+        </div>`;
+      }).join('')}
+      <div class="pc-mediaconta">
+        <b>${validados}</b> de ${maduros.length} publicações validadas.
+        Um post é validado quando bate as quatro metas.
+        ${P.length-maduros.length ? `<br><span style="color:var(--mute2)">${P.length-maduros.length} com menos de 24 h fora da conta — ainda medindo.</span>` : ''}
+      </div>
+    </div>
+  </section>
+
+  <section class="pc-passo">
+    <header><h2>Diagnóstico</h2><span class="ap">${semana.length?`semana de ${dbr(iniS)} a ${dbr(fimS)} · ${semana.length} publicaç${semana.length>1?'ões':'ão'}`:'sem publicações na semana'}</span></header>
+    <div class="pc-panel pc-acao">
+      ${diag}
+      <div class="rodapinho">recalculado toda segunda-feira</div>
+    </div>
+  </section>`;
 }
 
 function scope(lista){
@@ -1095,42 +1712,249 @@ function viewRegistrar(){
 }
 
 /* ---------- POSTS ---------- */
+/* tempo assistido: so existe em Reels, chega do backend ja em segundos */
+const seg = v => v==null ? null : (v<60
+  ? String(v).replace('.',',')+' s'
+  : Math.floor(v/60)+' min '+String(Math.round(v%60)).padStart(2,'0')+' s');
+
 function viewPosts(){
   if(!state.posts.length) return vazio();
-  const lista = [...state.posts].sort((a,b)=> ui.ordem==='data' ? (a.data<b.data?1:-1) : ((engaj(b)||0)-(engaj(a)||0)));
+  const lista = [...state.posts].sort((a,b)=> ui.ordem==='data'
+    ? (a.data<b.data?1:-1)
+    : (scoreValid(b)-scoreValid(a)));
+
   return `
   <div class="pc-filters">
     <button class="pc-chip" data-ordem="data" aria-pressed="${ui.ordem==='data'}">Mais recentes</button>
-    <button class="pc-chip" data-ordem="eng" aria-pressed="${ui.ordem==='eng'}">Maior engajamento</button>
+    <button class="pc-chip" data-ordem="eng" aria-pressed="${ui.ordem==='eng'}">Maior validação</button>
   </div>
   <div class="pc-panel">
-    <div class="pc-sec"><h2>Todos os posts</h2><span>${state.posts.length} registros</span></div>
-    <div class="pc-tablewrap">
-      <table class="pc-t">
-        <thead><tr>
-                  <th>Data</th><th>Post</th><th>Formato</th><th>Visualiz.</th><th>Salvos</th>
-          <th>Curt.</th><th>Comp.</th><th>Inter.</th><th>Alcance</th><th>Eng.</th><th></th>
-        </tr></thead>
-        <tbody>
-        ${lista.map(p=>{
-          const e = engaj(p);
-          return `<tr>
-            <td>${dataBR(p.data)}</td>
-            <td><div class="pc-name" title="${esc(p.titulo)}">${esc(p.titulo)}</div></td>
-            <td><span class="pc-fmt"><i style="background:${FORMATOS[p.formato]||'#515BD4'}"></i>${esc(p.formato)}</span></td>
-            <td>${N(p.views)}</td>
-            <td>${N(p.salvamentos)}</td>
-            <td>${N(p.curtidas)}</td>
-            <td>${N(p.compartilhamentos)}</td>
-            <td>${N(p.interacoes)}</td>
-            <td>${N(p.alcance)}</td>
-            <td style="color:${corStatus(e,state.bench.engajamento)}">${e===null?'—':P(e)+'%'}</td>
-            <td><button class="pc-lnk" data-edit="${p.id}">Editar</button><button class="pc-lnk del" data-del="${p.id}">Excluir</button></td>
-          </tr>`;
-        }).join('')}
-        </tbody>
-      </table>
+    <div class="pc-sec"><h2>Todas as publicações</h2><span>${state.posts.length} registros · passe o mouse para abrir</span></div>
+    ${lista.map(p=>{
+      const q = partesValid(p), sc = scoreValid(p), md = maduro(p);
+      const cls = !md ? 'nv' : sc>=100 ? 'ok' : 'no';
+      return `
+      <div class="pc-lin" tabindex="0">
+        <div class="cab2">
+          <div>
+            <div class="tt">${esc(p.titulo)}</div>
+            <div class="dd">${dataBR(p.data)} · <span class="pc-fmt"><i style="background:${FORMATOS[p.formato]||'#515BD4'}"></i>${esc(p.formato)}</span> · ${N(p.alcance)} de alcance${p.tempoMedio!=null?` · <b style="color:var(--ink);font-weight:600">${seg(p.tempoMedio)}</b> assistidos`:''}</div>
+          </div>
+          <div class="mini4">
+            ${q.map(x=>`<span><i style="height:${x.pct*100}%;background:${x.cor}"></i></span>`).join('')}
+          </div>
+          <div class="vv ${cls}">${md?Math.round(sc)+'%':'—'}</div>
+        </div>
+
+        <div class="det"><div><div class="detin">
+          <div class="mgrid">
+            ${q.map(x=>`
+              <div class="mcel">
+                <div class="n1" style="color:${x.cor}">${ICO[x.ico]}${x.rot}</div>
+                <div class="n2">${N(x.real)}</div>
+                <div class="n3">meta ${N(x.alvo)} · ${Math.round(x.pct*100)}%</div>
+                <div class="bar2"><i style="width:${x.pct*100}%;background:${x.cor}"></i></div>
+              </div>`).join('')}
+            ${p.tempoMedio!=null ? `
+            <div class="mcel">
+              <div class="n1">${ICO.relogio}tempo médio</div>
+              <div class="n2">${seg(p.tempoMedio)}</div>
+              <div class="n3">quanto seguraram o vídeo</div>
+              <div class="bar2"><i style="width:${Math.min(p.tempoMedio/Math.max(...state.posts.map(x=>n(x.tempoMedio)),1)*100,100)}%;background:var(--ig-blue)"></i></div>
+            </div>` : (p.formato==='Reels' ? `
+            <div class="mcel sem">
+              <div class="n1">${ICO.relogio}tempo médio</div>
+              <div class="n2">—</div>
+              <div class="n3">a conta não libera essa métrica</div>
+            </div>` : '')}
+            <div class="mcel sem">
+              <div class="n1">${ICO.seguidores}seguidores</div>
+              <div class="n2">—</div>
+              <div class="n3">a API não informa por post</div>
+            </div>
+          </div>
+          <div class="extra">
+            <span>alcance <b>${N(p.alcance)}</b></span>
+            <span>comentários <b>${N(p.comentarios)}</b></span>
+            <span>interações <b>${N(p.interacoes)}</b></span>
+            ${p.tempoTotal!=null?`<span>tempo total <b>${seg(p.tempoTotal)}</b></span>`:''}
+            <span>${md?`validação <b>${Math.round(sc)}%</b>`:'<b>ainda medindo</b> · menos de 24 h'}</span>
+            ${p.permalink?`<a href="${p.permalink}" target="_blank" rel="noopener">abrir no Instagram</a>`:''}
+          </div>
+        </div></div></div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+/* a regua da validacao mora no painel, junto do que ela mede */
+function reguaValidacao(){
+  const MV = metasValid(), SUG = metasSugeridas();
+  const alcMedio = state.posts.length ? Math.round(soma(state.posts,'alcance')/state.posts.length) : 0;
+  const SEG = n(state.seguidores) || 1;
+  const eq = c => c.k==='views'
+    ? Math.round(MV[c.k]/SEG*100)+'% da sua base de seguidores'
+    : (alcMedio ? (MV[c.k]/alcMedio*100).toFixed(1).replace('.',',')+'% do seu alcance médio' : 'sem alcance medido ainda');
+  return `
+    <div class="pc-legenda">
+      ${VCOMP.map(c=>`
+        <span class="lg" data-k="${c.k}" title="meta de ${c.rot} por publicação — ${eq(c)} · sugestão: ${SUG[c.k]}">
+          <i style="background:${c.cor}"></i>${c.rot}
+          <input id="mv_${c.k}" type="number" min="1" step="1" value="${MV[c.k]}"
+                 data-valid="${c.k}" aria-label="meta de ${c.rot} por publicação">
+        </span>`).join('')}
+      <span class="lgfoot">meta por publicação · parte cheia = meta batida<button class="pc-lnk" id="restaurarValid">restaurar</button></span>
+    </div>`;
+}
+
+/* ---------- HISTÓRICO ---------- */
+/* Os retratos vem do servidor com os numeros crus. A validacao e recalculada
+   aqui com a regua de HOJE, para que semanas distantes sejam comparadas
+   com o mesmo criterio — senao a compracao mede mudanca de regua, nao de conteudo. */
+
+async function carregarHistorico(){
+  if(hist.estado==='carregando') return;
+  hist.estado='carregando'; hist.erro=null;
+  try{
+    const r = await fetch(HIST_ENDPOINT, {headers:{'Accept':'application/json'}});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const d = await r.json();
+    hist.itens = Array.isArray(d.itens) ? d.itens : [];
+    hist.estado = 'pronto';
+    if(!hist.a && hist.itens[0]) hist.a = hist.itens[0].id;
+    if(!hist.b && hist.itens[1]) hist.b = hist.itens[1].id;
+  }catch(e){
+    hist.estado='erro'; hist.erro = e.message;
+  }
+  render();
+}
+
+async function retratoCompleto(id){
+  if(!id) return null;
+  if(hist.cache[id]) return hist.cache[id];
+  try{
+    const r = await fetch(HIST_ENDPOINT+'?id='+encodeURIComponent(id));
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    hist.cache[id] = await r.json();
+    return hist.cache[id];
+  }catch(e){ return null; }
+}
+
+function validadasDe(snap){
+  if(!snap || !Array.isArray(snap.posts)) return null;
+  const maduros = snap.posts.filter(maduro);
+  return { validados: maduros.filter(p=>scoreValid(p)>=100).length, total: maduros.length };
+}
+
+const semanaBR = s => {
+  if(!s || !s.de) return '—';
+  const d = x => x.slice(8,10)+'/'+x.slice(5,7);
+  return d(s.de)+' – '+d(s.ate);
+};
+
+function viewHistorico(){
+  if(hist.estado==='inicio'){ setTimeout(carregarHistorico,0); }
+
+  if(hist.estado==='inicio' || hist.estado==='carregando')
+    return `<div class="pc-panel"><p class="pc-note">Lendo o arquivo no servidor…</p></div>`;
+
+  if(hist.estado==='erro')
+    return `<div class="pc-panel">
+      <div class="pc-sec"><h2>Histórico</h2><span>não foi possível ler</span></div>
+      <p class="pc-note">O servidor respondeu <b>${esc(hist.erro||'erro')}</b>.
+      Se o painel acabou de subir, o arquivo ainda está vazio — o primeiro retrato é fechado
+      na próxima segunda-feira, automaticamente.
+      <button class="pc-lnk" id="recarregarHist">tentar de novo</button></p>
+    </div>`;
+
+  if(!hist.itens.length)
+    return `<div class="pc-panel">
+      <div class="pc-sec"><h2>Histórico</h2><span>ainda vazio</span></div>
+      <p class="pc-note">Nenhuma semana arquivada ainda. O painel fecha um retrato por semana,
+      sozinho, na primeira execução após a segunda-feira. A partir daí esta aba passa a
+      comparar as semanas entre si.
+      <button class="pc-lnk" id="recarregarHist">verificar de novo</button></p>
+    </div>`;
+
+  const A = hist.itens.find(x=>x.id===hist.a) || hist.itens[0];
+  const B = hist.itens.find(x=>x.id===hist.b) || null;
+
+  const linhas = [
+    {k:'publicacoes',      rot:'publicações'},
+    {k:'alcance',          rot:'alcance',           cor:'var(--c-cyan)'},
+    {k:'interacoes',       rot:'reações',           cor:'var(--c-blue)'},
+    {k:'salvamentos',      rot:'salvamentos',       cor:'var(--c-magenta)'},
+    {k:'compartilhamentos',rot:'compartilhamentos', cor:'var(--ig-purple)'},
+    {k:'novosSeguidores',  rot:'novos seguidores',  cor:'var(--c-amber)'},
+    {k:'seguidores',       rot:'seguidores no fim'}
+  ];
+
+  const delta = (a,c) => {
+    if(a==null || c==null) return {t:'—', cls:''};
+    if(c===0) return a===0 ? {t:'igual', cls:''} : {t:'novo', cls:'ok'};
+    const v = (a-c)/c*100;
+    if(Math.abs(v)<0.5) return {t:'estável', cls:''};
+    return {t:(v>0?'+':'')+Math.round(v)+'%', cls:v>0?'ok':'ruim'};
+  };
+
+  return `
+  <div class="pc-panel">
+    <div class="pc-sec">
+      <h2>Semanas arquivadas</h2>
+      <span>${hist.itens.length} retrato${hist.itens.length>1?'s':''} · o servidor fecha um por semana</span>
     </div>
+    <div class="pc-hist">
+      ${hist.itens.map(x=>`
+        <div class="hl${x.id===hist.a?' sel-a':''}${x.id===hist.b?' sel-b':''}">
+          <div class="per">
+            <b>${semanaBR(x)}</b>
+            <span>${x.publicacoes} publicaç${x.publicacoes===1?'ão':'ões'}</span>
+          </div>
+          <div class="nums">
+            <span><i style="background:var(--c-cyan)"></i>${N(x.alcance)}</span>
+            <span><i style="background:var(--c-blue)"></i>${N(x.interacoes)}</span>
+            <span><i style="background:var(--c-amber)"></i>${x.novosSeguidores==null?'—':N(x.novosSeguidores)}</span>
+          </div>
+          <div class="sel">
+            <button class="pc-lnk${x.id===hist.a?' on':''}" data-hist="a" data-id="${x.id}">A</button>
+            <button class="pc-lnk${x.id===hist.b?' on':''}" data-hist="b" data-id="${x.id}">B</button>
+          </div>
+        </div>`).join('')}
+    </div>
+    <p class="pc-note" style="margin-top:12px">
+      Marque duas semanas como <b>A</b> e <b>B</b> para compará-las abaixo.
+      A cor de cada número segue a mesma do painel: alcance, reações e novos seguidores.
+    </p>
+  </div>
+
+  <div class="pc-panel">
+    <div class="pc-sec">
+      <h2>Comparação</h2>
+      <span>${B ? `${semanaBR(A)} contra ${semanaBR(B)}` : 'escolha uma segunda semana'}</span>
+    </div>
+    ${!B ? `<p class="pc-note">Marque um <b>B</b> na lista acima para ver a variação.</p>` : `
+    <div class="pc-cmp">
+      <div class="cab">
+        <span></span>
+        <span class="ca">A · ${semanaBR(A)}</span>
+        <span class="cb">B · ${semanaBR(B)}</span>
+        <span class="cd">variação</span>
+      </div>
+      ${linhas.map(l=>{
+        const va = A[l.k], vb = B[l.k], d = delta(va,vb);
+        return `<div class="lin">
+          <span class="rot">${l.cor?`<i style="background:${l.cor}"></i>`:''}${l.rot}</span>
+          <span class="va">${va==null?'—':N(va)}</span>
+          <span class="vb">${vb==null?'—':N(vb)}</span>
+          <span class="vd ${d.cls}">${d.t}</span>
+        </div>`;
+      }).join('')}
+    </div>
+    <p class="pc-note" style="margin-top:12px">
+      A variação é sempre <b>A em relação a B</b>. Verde e vermelho indicam a direção do número,
+      não se aquilo foi bom — uma queda de alcance numa semana sem publicação é esperada,
+      não é problema.
+    </p>`}
   </div>`;
 }
 
@@ -1139,17 +1963,80 @@ function viewMetas(){
   const b = state.bench;
   const d = ui.draft;
 
-  const inpBench = (k,label,step='1') => `
+  const a = state.alvo || {};
+  const inpAlvo = (k,label,valor,obs) => `
     <div class="pc-field">
-      <label for="g_bench_${k}">${label}</label>
-      <input id="g_bench_${k}" data-grupo="bench" data-chave="${k}" type="number" min="0" step="${step}" value="${b[k]}">
+      <label for="g_alvo_${k}">${label}</label>
+      <input id="g_alvo_${k}" data-alvo="${k}" type="number" min="0" step="1" value="${valor}">
+      <span class="hint">${obs}${n(a[k])>0 ? '' : ' · <i>automático</i>'}</span>
     </div>`;
+  const pctTxt = p => (isFinite(p)?p.toFixed(p<10?1:0).replace('.',','):'—')+'%';
+
+  const alcTotal = soma(state.posts,'alcance');
+  const SEG = n(state.seguidores);
+  const nPub = state.posts.length;
+  const mAlc = metaAlcance(), mSal = metaGuardaram(), mCom = metaRepassaram(), mSeg = metaNovosSeg();
 
   return `
   <div class="pc-panel">
     <div class="pc-sec">
-      <h2>Suas metas</h2>
-      <span>${state.metas.filter(m=>progressoMeta(m).ok).length} de ${state.metas.length} batidas</span>
+      <h2>Como está a página</h2>
+      <span>as metas dos indicadores do topo</span>
+    </div>
+    <div class="pc-metasv">
+      <div class="campos" style="grid-template-columns:repeat(2,1fr)">
+        <div class="cp">
+          <label for="mt_validadas"><span class="ln"><i style="background:var(--ok)"></i>publicações validadas</span></label>
+          <input id="mt_validadas" type="number" min="1" step="1" value="${metaValidadas()}" data-topo="validadas">
+          <div class="eq">de ${state.posts.filter(maduro).length} publicações no período</div>
+        </div>
+        <div class="cp">
+          <label for="mt_novos"><span class="ln"><i style="background:var(--c-amber)"></i>novos seguidores</span></label>
+          <input id="mt_novos" type="number" min="0" step="1" value="${metaNovosSeg()}" data-topo="novosSeg">
+          <div class="eq">${n((state.topo||{}).novosSeg)>0 ? 'valor fixo definido por você' : '= fim da cadeia abaixo'}</div>
+        </div>
+      </div>
+      <div class="rod">
+        <b>Novos seguidores é a mesma meta</b> do fim da cadeia de engajamento abaixo — não são duas.
+        Em branco, o número vem de <i>visitaram o perfil × seguiram</i>; digitando aqui, você fixa
+        um valor e a cadeia deixa de mandar nesse indicador.
+        <button class="pc-lnk" id="restaurarTopo">restaurar automático</button>
+      </div>
+    </div>
+  </div>
+  <div class="pc-panel">
+    <div class="pc-sec">
+      <h2>Dados de engajamento no mês</h2>
+      <span>as metas de cada etapa da cadeia</span>
+    </div>
+    <div class="pc-form">
+      ${inpAlvo('alcance','Alcance — pessoas no mês', mAlc,
+        SEG ? `${pctTxt(mAlc/(nPub||1)/SEG*100)} da sua base por publicação` : 'sem seguidores informados')}
+      ${inpAlvo('salvamento','Guardaram — salvamentos no mês', mSal,
+        alcTotal ? `${pctTxt(mSal/alcTotal*100)} dos visualizadores` : 'sem visualizadores medidos ainda')}
+      ${inpAlvo('compartilhamento','Repassaram — compartilhamentos no mês', mCom,
+        alcTotal ? `${pctTxt(mCom/alcTotal*100)} dos visualizadores` : 'sem visualizadores medidos ainda')}
+    </div>
+    <div class="pc-metasv" style="margin-top:16px;background:var(--panel2)">
+      <div class="rod" style="margin-top:0">
+        <b>Passaram a seguir</b> fecha a cadeia com meta de <b>${N(mSeg)}</b> no mês
+        ${alcTotal ? `— ${pctTxt(mSeg/alcTotal*100)} dos visualizadores` : ''} ·
+        <span style="color:var(--mute2)">é o campo <i>novos seguidores</i> do bloco acima, não um segundo lugar para editar.</span>
+        <br>
+        <b>Reagiram não tem meta</b> — aparece no painel só para mostrar o volume da semana, como as reações no topo.
+      </div>
+    </div>
+    <p class="pc-note" style="margin-top:14px">
+      As metas são o <b>número de pessoas</b> que você quer no mês; a porcentagem embaixo de cada campo é
+      só a leitura desse número sobre a sua base atual — é ela que aparece no painel como distância até a meta.
+      Deixar um campo em <b>0</b> devolve o cálculo automático.
+      Alterar aqui muda o painel na hora.
+    </p>
+  </div>
+  <div class="pc-panel">
+    <div class="pc-sec">
+      <h2>Metas extras</h2>
+      <span>${state.metas.length ? `${state.metas.filter(m=>progressoMeta(m).ok).length} de ${state.metas.length} batidas` : 'nenhuma — o painel já tem as suas'}</span>
     </div>
 
     ${state.metas.length ? state.metas.map((m,i)=>{
@@ -1174,85 +2061,23 @@ function viewMetas(){
           </span>
         </div>
       </div>`;
-    }).join('') : `<p class="pc-note">Nenhuma meta ainda. Crie a primeira abaixo — pode ser qualquer combinação de métrica, período e filtro.</p>`}
+    }).join('') : `<p class="pc-note">Todas as metas que o painel usa estão nos dois blocos acima. Este espaço é só para
+      cruzamentos que o painel não mostra — por exemplo <i>salvamento médio só em Reels</i> ou
+      <i>alcance dos últimos 7 dias</i>. Crie uma abaixo se precisar.</p>`}
 
     ${d ? '' : `<div class="pc-actions"><button class="pc-btn" id="novaMeta">Nova meta</button>
       <span class="pc-msg ${ui.msg&&ui.msg.err?'err':''}" id="msg">${ui.msg?esc(ui.msg.txt):''}</span></div>`}
   </div>
 
   ${d ? construtorMeta(d) : ''}
-
   <div class="pc-panel">
     <div class="pc-sec"><h2>Perfil</h2><span>base de cálculo</span></div>
     <div class="pc-form">
       <div class="pc-field">
         <label for="g_seg">Seguidores hoje</label>
         <input id="g_seg" data-grupo="raiz" data-chave="seguidores" type="number" min="0" value="${state.seguidores}">
-        <span class="hint">usado no estágio 01 do funil</span>
+        <span class="hint">base para a meta de alcance</span>
       </div>
-    </div>
-  </div>
-
-  <div class="pc-panel">
-    <div class="pc-sec"><h2>Referências do funil</h2><span>o que conta como saudável em cada estágio</span></div>
-    <div class="pc-form">
-      ${inpBench('distribuicao','01 Distribuição (%)')}
-      ${inpBench('retencao','02 Retenção (%)')}
-      ${inpBench('engajamento','03 Interação (%)','0.5')}
-      ${inpBench('compartilhamento','04 Compartilhamento (%)','0.1')}
-      ${inpBench('salvamento','05 Salvamento (%)','0.1')}
-      ${inpBench('visitaPerfil','06 Visita ao perfil (%)','0.5')}
-      ${inpBench('conversao','07 Conversão em seguidor (%)')}
-    </div>
-    <p class="pc-note" style="margin-top:14px"><b>Referência não é meta.</b> Meta é o que você quer atingir num prazo; referência é o piso de qualidade que o diagnóstico usa para achar o gargalo. Os valores iniciais são medianas de conta pequena em português — depois de 20 posts, troque pela <b>sua própria mediana + 20%</b>.</p>
-  </div>
-
-  <div class="pc-panel">
-    <div class="pc-sec"><h2>Dados</h2><span>${destinos.length? esc(destinos.map(nomeDestino).join(' + ')) : 'apenas em memória'}</span></div>
-
-    <div class="pc-goal" style="border-bottom:1px solid var(--line);padding-top:0">
-      <div class="top">
-        <span class="nm">Salvamento automático</span>
-        <span class="pct" style="color:${textoSalvo().c}">${esc(textoSalvo().t)}</span>
-      </div>
-      <p class="pc-note" style="margin-top:6px;font-size:12px">
-        Cada alteração é gravada em todas as camadas ativas ao mesmo tempo. Ao abrir, o painel lê todas e usa a versão mais recente.
-        ${!destinos.length ? '<b>Este navegador bloqueou o armazenamento. Nada será mantido ao fechar — exporte o JSON antes de sair.</b>' : ''}
-      </p>
-    </div>
-
-    <div class="pc-goal" style="border-bottom:1px solid var(--line)">
-      <div class="top">
-        <span class="nm">Arquivo no computador</span>
-        <span class="pct" style="color:${arquivoVinculado?'var(--ok)':'var(--warn)'}">
-          ${arquivoVinculado ? esc(arquivoNome||'vinculado') : (suportaArquivo?'não vinculado':'indisponível neste navegador')}
-        </span>
-      </div>
-      <p class="pc-note" style="margin-top:6px;font-size:12px">
-        ${suportaArquivo
-          ? 'A única camada que não depende do navegador nem desta conversa. Escolha um .json uma vez e tudo passa a ser escrito nele automaticamente.'
-          : 'Seu navegador não suporta gravação direta em arquivo (funciona no Chrome, Edge e Opera). Use o export de JSON como backup.'}
-      </p>
-    </div>
-
-    <div class="pc-goal">
-      <div class="top">
-        <span class="nm">Última exportação manual</span>
-        <span class="pct" style="color:${!state.exportadoEm?'var(--bad)':diasDesde(state.exportadoEm)>30?'var(--warn)':'var(--ok)'}">
-          ${state.exportadoEm ? dataBR(state.exportadoEm.slice(0,10))+' · há '+diasDesde(state.exportadoEm)+' dia(s)' : 'nunca exportado'}
-        </span>
-      </div>
-    </div>
-
-    <div class="pc-actions">
-      ${suportaArquivo?`<button class="pc-btn ${arquivoVinculado?'ghost':''}" id="vincular">${arquivoVinculado?'Trocar arquivo vinculado':'Vincular arquivo do computador'}</button>`:''}
-      ${arquivoVinculado?`<button class="pc-btn ghost" id="desvincular">Desvincular</button>`:''}
-      <button class="pc-btn ghost" id="exportar">Exportar JSON</button>
-      <button class="pc-btn ghost" id="importar">Importar JSON</button>
-      ${podeDesfazer?`<button class="pc-btn ghost" id="desfazer">Desfazer última substituição</button>`:''}
-      <button class="pc-btn ghost danger" id="zerar">Apagar tudo</button>
-      <input type="file" id="arquivo" accept="application/json" style="display:none">
-      <span class="pc-msg ${ui.msg&&ui.msg.err?'err':''}" id="msg2">${ui.msg?esc(ui.msg.txt):''}</span>
     </div>
   </div>`;
 }
@@ -1339,8 +2164,10 @@ async function sincronizarInstagram(){
     let novos=0, atualizados=0;
     for(const it of dados.posts){
       const base = {
-        data: it.data, titulo: it.titulo||'(sem legenda)', formato: it.formato||'Reels', persona:'Geral',
-        views:n(it.views),views:n(it.views), alcance:n(it.alcance), interacoes:n(it.interacoes),
+        data: it.data, ts: it.ts||null, titulo: it.titulo||'(sem legenda)', formato: it.formato||'Reels', persona:'Geral',
+        views:n(it.views), alcance:n(it.alcance), interacoes:n(it.interacoes),
+        tempoMedio: (it.tempoMedio==null) ? null : n(it.tempoMedio),
+        tempoTotal: (it.tempoTotal==null) ? null : n(it.tempoTotal),
         curtidas:n(it.curtidas), comentarios:n(it.comentarios),
         compartilhamentos:n(it.compartilhamentos), salvamentos:n(it.salvamentos),
         visitasPerfil:n(it.visitasPerfil), novosSeguidores:n(it.novosSeguidores),
@@ -1368,6 +2195,66 @@ function ligarEventos(){
   document.querySelectorAll('[data-periodo]').forEach(b=>b.onclick=()=>{ ui.periodo = b.dataset.periodo==='tudo'?'tudo':Number(b.dataset.periodo); render(); });
   document.querySelectorAll('[data-ordem]').forEach(b=>b.onclick=()=>{ ui.ordem=b.dataset.ordem; render(); });
   document.querySelectorAll('[data-goto]').forEach(b=>b.onclick=()=>{ ui.tab=b.dataset.goto; render(); });
+
+  document.querySelectorAll('[data-valid]').forEach(inp=>{
+    inp.onchange = async ()=>{
+      const v = parseInt(inp.value,10);
+      state.valid = {...(state.valid||{}), [inp.dataset.valid]: (isFinite(v)&&v>0)?v:0};
+      await salvar(); render();
+    };
+  });
+  const rv = document.getElementById('restaurarValid');
+  if(rv) rv.onclick = async ()=>{ state.valid = {...DEFAULT_VALID}; await salvar(); render(); };
+
+  document.querySelectorAll('[data-hist]').forEach(btn=>{
+    btn.onclick = ()=>{
+      const lado = btn.dataset.hist, id = btn.dataset.id;
+      if(hist[lado]===id) hist[lado]=null; else hist[lado]=id;
+      if(hist.a && hist.a===hist.b) hist[lado==='a'?'b':'a']=null;
+      render();
+    };
+  });
+  /* abre um grafico de cada vez na validacao do publico */
+  const vpan = document.getElementById('valpanel');
+  if(vpan){
+    const barras = [...vpan.querySelectorAll('.pc-seg .sg')];
+    const grupos = [...vpan.querySelectorAll('.pc-seg')];
+    const fechar = ()=>{ barras.forEach(x=>x.classList.remove('aberto'));
+                         grupos.forEach(x=>x.classList.remove('aberto')); };
+    barras.forEach(sg=>{
+      sg.addEventListener('mouseenter', ()=>{
+        fechar();                                  // fecha antes de abrir: nunca duas ao mesmo tempo
+        sg.classList.add('aberto');
+        sg.closest('.pc-seg').classList.add('aberto');
+      });
+      sg.addEventListener('mouseleave', ()=>{
+        sg.classList.remove('aberto');
+        sg.closest('.pc-seg').classList.remove('aberto');
+      });
+    });
+    vpan.addEventListener('mouseleave', fechar);
+  }
+
+  const rh = document.getElementById('recarregarHist');
+  if(rh) rh.onclick = ()=>{ hist.estado='inicio'; render(); };
+
+  document.querySelectorAll('[data-alvo]').forEach(inp=>{
+    inp.onchange = async ()=>{
+      const v = parseInt(inp.value,10);
+      state.alvo = {...(state.alvo||{}), [inp.dataset.alvo]: (isFinite(v)&&v>0)?v:0};
+      await salvar(); render();
+    };
+  });
+
+  document.querySelectorAll('[data-topo]').forEach(inp=>{
+    inp.onchange = async ()=>{
+      const v = parseInt(inp.value,10);
+      state.topo = {...(state.topo||{}), [inp.dataset.topo]: (isFinite(v)&&v>0)?v:0};
+      await salvar(); render();
+    };
+  });
+  const rt = document.getElementById('restaurarTopo');
+  if(rt) rt.onclick = async ()=>{ state.topo = {...DEFAULT_TOPO}; await salvar(); render(); };
 
   const sinc = document.getElementById('sincronizar');
   if(sinc) sinc.onclick = sincronizarInstagram;
@@ -1553,7 +2440,7 @@ function ligarEventos(){
   if(zerar) zerar.onclick = async()=>{
     if(!confirm('Apagar todos os posts e metas? Um backup fica guardado para desfazer, mas exporte o JSON se quiser garantia.')) return;
     await guardarBackup();
-    state = { posts:[], metas:DEFAULT_METAS.map(m=>({...m})), bench:{...DEFAULT_BENCH}, seguidores:0, exportadoEm:null };
+    state = { posts:[], metas:[], bench:{...DEFAULT_BENCH}, valid:{...DEFAULT_VALID}, topo:{...DEFAULT_TOPO}, alvo:{...DEFAULT_ALVO}, seguidores:0, exportadoEm:null };
     ui.draft = null;
     await limparRascunho();
     await salvar(); render();
@@ -1586,3 +2473,5 @@ window.addEventListener('pagehide', gravarAgora);
 
 carregar().then(()=>{ render(); sincronizarInstagram(); });
 </script>
+</body>
+</html>
